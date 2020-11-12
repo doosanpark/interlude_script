@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!--load all styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <script language="JavaScript" type="text/javascript">
+
+        let imgArray = new Array();
+        let bgm = new Audio('');
+        let imgNum = 1;
+        let objImg;
+        let imgOpacity = 0;
+        let keepPlay = true;
+
+        //페이드 인 아웃 시 카운트
+        let volCnt = 0.0001;
+        let imgCnt = 0.0003;
+        function setImage() {
+
+            for (let i = 1; i <= 66; i++) {
+                let j;
+                if (i < 10) {
+                    j = "0000" + i;
+                } else if (i < 100) {
+                    j = "000" + i;
+                } else if (i < 1000) {
+                    j = "00" + i;
+                } else if (i < 10000) {
+                    j = "0" + i;
+                }
+                imgArray[i] = "image/intro_outro/intro_outro(" + i + ").jpg";
+            }
+            showImage();
+        }
+
+        function showImage() {
+            objImg = document.getElementById("introimg");
+            objImg.style.opacity = 1;
+            objImg.src = imgArray[imgNum++];
+            if (imgNum == 455) {
+                setAudioFadeOut();
+                setImgFadeOut();
+            }
+
+            //60 -> 455 (-77)
+            if (imgNum > 66) {
+                keepPlay = false;
+                window.location.replace("http://118.67.133.71:8080/build/on_and_off1.html");
+                //window.location.replace("http://127.0.0.1:5500/on_and_off1.html");
+            }
+            if (keepPlay) {
+                setTimeout(showImage, 60);
+            }
+        }
+
+        function setAudio() {
+
+            //오디오
+            if (!bgm.canPlayType('audio/ogg')) alert('브라우저가 ogg 재생을 지원하지 않습니다.');
+            else {
+                let bgm_url = 'http://upload.wikimedia.org/wikipedia/commons/d/d7/Wikinews_Remix_Jingle.ogg';
+                bgm = new Audio(bgm_url);
+                bgm.volume = 0;
+                bgm.loop = true;
+                //bgm.play();
+
+            }
+        }
+       
+        function setAudioFadeIn() {
+            //오디오
+            if (volCnt * 1.1 + bgm.volume < 0.4) {
+
+                volCnt *= 1.1;
+                bgm.volume += volCnt;
+                setTimeout(setAudioFadeIn, 50);
+            } else {
+                bgm.volume = 0.4;
+
+            }
+        }
+
+        function setAudioFadeOut() {
+
+            //오디오
+            if (bgm.volume - volCnt * 1.1 > 0) {
+                volCnt *= 1.1;
+                bgm.volume -= volCnt;
+                setTimeout(setAudioFadeOut, 100);
+            } else {
+                bgm.volume = 0;
+            }
+        }
+
+        function mouseEvent() {
+            //마우스 커서 이벤트
+            $(document).ready(function () {
+
+                $(document).mousemove(function (e) {
+
+                    let x = e.pageX;
+                    let y = e.pageY;
+
+                    let wi = document.body.clientWidth / 2;
+                    let he = document.body.clientHeight / 2;
+
+                    if (x > wi / 2 - 50 && x < wi / 2 + 50 && y > he - 50)
+                        $('body').css('cursor', 'pointer');
+                    else {
+                        $('body').css('cursor', 'default');
+                    }
+
+                });
+            });
+        }
+
+        function initializing() {
+            setImage();
+            mouseEvent();
+            setAudio();
+            setImgFadeIn();
+            setAudioFadeIn();
+        }
+    </script>
+
+</head>
+
+<body onload="initializing()">
+    <img id="introimg" style="opacity: 0.1" />
+</body>
+
+</html>
