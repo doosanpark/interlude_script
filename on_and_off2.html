@@ -42,16 +42,7 @@
         function setImage() {
 
             for (let i = 1; i < 21; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
+
                 mainPageArray[i] = "image/on_and_off/on_and_off_3/on_and_off(" + i + ").jpg";
             }
 
@@ -64,7 +55,7 @@
             //console.log(imgNum);
             switch (sceneCase) {
 
-                case 3:
+                default:
                     objImg.src = mainPageArray[imgNum];
                     if (buttonClicked === false) {
                         imgNum++;
@@ -85,12 +76,11 @@
             //오디오
             if (!bgm.canPlayType('audio/ogg')) alert('브라우저가 ogg 재생을 지원하지 않습니다.');
             else {
-                let bgm_url = 'http://upload.wikimedia.org/wikipedia/commons/d/d7/Wikinews_Remix_Jingle.ogg';
+                let bgm_url = 'image/sound/Hiroshi Yoshimura - Wet Land.mp3';
                 bgm = new Audio(bgm_url);
                 bgm.pause();
                 bgm.volume = 0.1;
                 bgm.loop = true;
-                bgm.muted = true;
                 bgm.play();
             }
         }
@@ -111,7 +101,6 @@
 
             let opacityValue = objImg.style.opacity;
             opacityValue *= 1;
-
             //투명도
             if (imgCnt * 1.3 + opacityValue < 1) {
                 imgCnt *= 1.1;
@@ -122,10 +111,7 @@
                 imgOpacity = 1;
                 volCnt = 0.001;
                 imgCnt = 0.03;
-                // let myWindow = window.open("", "", "width=100, height=100");  // Opens a new window
-                // myWindow.resizeTo(1000, 1000);                             // Resizes the new window
-                // myWindow.focus();                                        // Sets focus to the new window
-
+                cursorAction = true;
             }
         }
         function setAudioFadeOut() {
@@ -156,10 +142,10 @@
                 sceneCase++;
 
                 if (clickCase === 1) {
-                    //window.location.replace("http://interlude.live:8080/build/falling.html");
+                    //window.location.replace("http://www.interlude.live:8080/build/falling.html");
                     window.location.replace("http://127.0.0.1:5500/falling.html");
                 } else if (clickCase === 2) {
-                    //window.location.replace("http://interlude.live:8080/build/diving.html");
+                    //window.location.replace("http://www.interlude.live:8080/build/diving.html");
                     window.location.replace("http://127.0.0.1:5500/diving.html");
                 }
                 imgOpacity = 0;
@@ -168,65 +154,105 @@
         }
 
         function mouseEvent() {
-            //마우스 커서 이벤트
 
+            mouseCursor = document.querySelector(".cursor");
+            window.addEventListener("scroll", cursor);
+            window.addEventListener("mousemove", cursor);
+            mouseCursor.style.backgroundColor = "black";
+
+            //마우스 커서 이벤트
             $(document).mousemove(function (e) {
                 x = e.pageX;
                 y = e.pageY;
                 wi = objImg.clientWidth;
-                he = document.body.clientHeight;
+                he = window.innerHeight;
 
+                //console.log("pure x", x);
                 x *= 1;
                 y *= 1;
                 wi *= 1;
                 he *= 1;
 
-                x -= (screen.width - wi) / 2;
-                // console.log("x", x);
-                // console.log("y", y);
-                // console.log("wi", wi);
-                // console.log("he", wi);
-                // console.log("true?", (x > wi * 0.51 && x < wi * 0.59 && y > he * 0.37 && y < he * 0.52));
+                x -= (window.innerWidth - wi) / 2
+                if (cursorAction === true && buttonClicked === false) {
+                    switch (sceneCase) {
+                        case 1:
+                            if (x > wi * 0.51 && x < wi * 0.62 && y > he * 0.41 && y < he * 0.57) {
+                                activeMouseEffect();
+                            }
+                            else {
+                                deActiveMouseEffect();
+                            }
+                            break;
+                        case 2:
+                            deActiveMouseEffect();
+                            break;
 
-                switch (sceneCase) {
+                        case 3:
+                            if (x > wi * 0.65 && x < wi * 0.785 && y > he * 0.33 && y < he * 0.61) {
 
-
-                    case 3:
-                        if (x > wi * 0.65 && x < wi * 0.785 && y > he * 0.33 && y < he * 0.61) {
-                            $('body').css('cursor', 'pointer');
-                        }
-                        else if (x > wi * 0.65 && x < wi * 0.87 && y > he * 0.69 && y < he * 0.81) {
-                            $('body').css('cursor', 'pointer');
-                        }
-                        else {
-                            $('body').css('cursor', 'default');
-                        }
-                        break;
-                }
+                            }
+                            else if (x > wi * 0.65 && x < wi * 0.87 && y > he * 0.69 && y < he * 0.81) {
+                                activeMouseEffect();
+                            }
+                            else {
+                                deActiveMouseEffect();
+                            }
+                            break;
+                        default:
+                            deActiveMouseEffect();
+                            break;
+                    }//switch 종료
+                }  //if문 종료
             });
         }
 
         function imgClickEvent() {
-            switch (sceneCase) {
+            if (cursorAction === true && buttonClicked === false) {
+                switch (sceneCase) {
+                    case 1:
+                        if (x > wi * 0.51 && x < wi * 0.62 && y > he * 0.41 && y < he * 0.57) {
+                            sceneCase++;
+                            deActiveMouseEffect();
+                        }
+                        imgNum = 1;
+                        break;
+                    case 2:
+                        if (x > wi - 60 && x < wi + 40 && y > he - 80 && y < he + 85) {
 
-                case 3:
-                    volCnt = 0.001;
-                    imgCnt = 0.03;
-                    if (x > wi * 0.65 && x < wi * 0.785 && y > he * 0.33 && y < he * 0.61) {
-                        setImgFadeOut();
-                        setAudioFadeOut();
-                        clickCase = 1;
-                    }
-                    else if (x > wi * 0.65 && x < wi * 0.87 && y > he * 0.69 && y < he * 0.81) {
-                        setImgFadeOut();
-                        setAudioFadeOut();
-                        clickCase = 2;
-                    }
-
-                    break;
-            }
+                        }
+                        break;
+                    case 3:
+                        volCnt = 0.001;
+                        imgCnt = 0.03;
+                        sceneCase++;
+                        if (x > wi * 0.65 && x < wi * 0.785 && y > he * 0.33 && y < he * 0.61) {
+                            setImgFadeOut();
+                            setAudioFadeOut();
+                            clickCase = 1;
+                        }
+                        else if (x > wi * 0.65 && x < wi * 0.87 && y > he * 0.69 && y < he * 0.81) {
+                            setImgFadeOut();
+                            setAudioFadeOut();
+                            clickCase = 2;
+                        }
+                        deActiveMouseEffect();
+                        break;
+                }// switch문 종료
+            }// if (buttonClicked === false)  종료
             $('body').css('cursor', 'default');
 
+        }
+
+
+        function activeMouseEffect() {
+            mouseCursor.style.backgroundColor = "#0043ff";
+            mouseCursor.style.border = "0px"
+            mouseCursor.style.outline = "0px"
+        }
+        function deActiveMouseEffect() {
+            mouseCursor.style.backgroundColor = "black";
+            mouseCursor.style.border = "2px solid var(--color-texta)";
         }
 
         function modalEvent() {
@@ -243,7 +269,7 @@
         function showModal() {
             buttonClicked = true;
 
-            let widthLength = '87.5%';
+            let widthLength = '90%';
             let heightLength = '100%';
 
             let modalContent = document.getElementById("modalContent");
@@ -258,7 +284,6 @@
             btn.style.opacity = 1;
             btn.style.borderColor = "#001d85";
 
-
             $('#btnText').addClass('animation_txt');
             let btnText = document.getElementById("btnText");
             btnText.style.color = 'white';
@@ -270,20 +295,30 @@
             $('#myModal').hide();
             $('#btn').addClass('deactivate_animation_btn');
             let btn = document.getElementById("btn");
-            btn.style.backgroundColor = "transparent";
-            btn.style.opacity = 0.1;
-            btn.style.borderColor = "black";
-
+            btn.style.borderColor = "rgba(147, 147, 147, 0.7)";
 
             $('#btnText').addClass('deactivate_animation_txt');
             let btnText = document.getElementById("btnText");
-            btnText.style.color = 'black';
-            btnText.style.opacity = 0.1;
+            btnText.style.color = 'rgb(147, 147, 147, 0.7)';
         }
 
-
+        function btnHoverEvent() {
+            if (buttonClicked === false) {
+                let btn = document.getElementById("btn");
+                btn.style.background = "rgba(124,124,124,0.5)";
+            }
+        }
+        function btnOffEvent() {
+            if (buttonClicked === false) {
+                let btn = document.getElementById("btn");
+                btn.style.background = "rgba(0,0,0,0)";
+            }
+        }
+        function cursor(e) {
+            mouseCursor.style.left = e.pageX + "px";
+            mouseCursor.style.top = e.pageY - scrollY + "px";
+        }
         function initializing() {
-
             setImage();
             setImgFadeIn();
             mouseEvent();
@@ -295,14 +330,15 @@
 </head>
 
 <body onload="initializing()">
+    <div class="cursor"></div>
     <div class="imgClass">
         <img id="introimg" style=" opacity: 0.1;" onclick="imgClickEvent()" />
     </div>
     <div id="btnClass">
-        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()"></button>
+        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()" onmouseout="btnOffEvent()"></button>
     </div>
     <div id="btnText">
-        <span id="textOfBtn" onclick="modalEvent()" onmouseover="btnHoverEvent()">?</span>
+        <span id="textOfBtn" onclick="modalEvent()" onmouseover="btnHoverEvent()" onmouseout="btnOffEvent()">?</span>
     </div>
 
     <div id="myModal" class="modal">
@@ -318,42 +354,42 @@
                     <div id="details">
                         <div style="height: 50%; width: 50%;">
                             <div style="height: 30%;">
-                                <span id="sceneNumber">01.</span>
+                                <span id="sceneNumber">04.</span>
                             </div>
-                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> On & Off.</div>
+                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> Endless Diving</div>
                         </div>
 
                         <div id="detailContents" style="margin-left: 10px;">
 
-                            <span style="font-weight: 500;">Prologue</span><br /><br />
+                            <span style="font-weight: 500;">2020. 6. 24 (Wed)
+                            </span><br /><br />
 
                             <span
-                                style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; 
-                                letter-spacing: -0.5px; line-height: 22px;">
+                                style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; letter-spacing: -0.5px; line-height: 22px;">
                                 “어떤 일로 오셨어요”
-                                차트를 넘기던 의사는 고개를 들어 그를 쳐다봤다.한참 동안 침묵을 유지하던 담담한 표정의 그는 천천히 손을 뻗어 <span
-                                    style="text-decoration: underline; font-weight: bold;">테이블 위의 작은 등</span>을
-                                켰다. 텅 비어있던
-                                공간에 등이 켜지며 전기가 흐르는 날카로운 소리로 가득 찼다가 이내 사라졌다. 의자 밑으로 드리워진 <span
-                                    style="text-decoration: underline; font-weight: bold;">그</span>의 선명한 <span
-                                    style="text-decoration: underline; font-weight: bold;">그림자</span>가 어쩐지 불안정해 보인다.
+                                차트를 넘기던 의사는 고개를 들어 그를 쳐다봤다.한참 동안 침묵을 유지하던 담담한 표정의 그는 천천히 손을 뻗어 테이블 위의 <span
+                                    class='korOfTouchImg'>작은 등</span>을 켰다. 텅 비어있던 공간에 등이 켜지며 전기가 흐르는 날카로운 소리로 가득 찼다가 이내
+                                사라졌다. 의자 밑으로 드리워진 <span class='korOfTouchImg'>그</span>의 <span class='korOfTouchImg'>선명한
+                                    그림자</span>가 어쩐지 불안정해 보인다.
+
+
                             </span>
                             <span style="display: inline-block; height: auto; margin-bottom: 25px;">
                                 “hello, Sir, What have you come here for”
                                 The doctor, who was handing over the chart, looks up at him.After a long silence, he
-                                slowly
-                                reached out and turned on a small light on the table. The space was filled with the
-                                sound of
-                                electricity running sharply, and then disappeared. His shadow under the chair somehow
-                                looks
-                                unstable.
+                                slowly reached out and turned on a <span class='engOfTouchImg'>small</span> light on the
+                                table. The space was filled with the sound of electricity running sharply, and then
+                                disappeared. <span class='engOfTouchImg'>His</span> <span
+                                    class='engOfTouchImg'>shadow</span> under the chair somehow looks unstable.
+
+
                             </span>
 
 
                             <span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">
                                 포스터는 클릭하면 다운과 프린트가 가능하다.
                             </span><br />
-                            <span style="height: 0px; font-size: 12.5px; width: 100%; text-align: left;">
+                            <span style="height: 0px; font-size: 11.5px; width: 100%; text-align: left;">
                                 You can download and print when you click the poster.</span>
                         </div>
 
@@ -381,8 +417,14 @@
 
             </div>
             <div id="options">
-                <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; " onclick="emailBtnClick()" />
-                <img src="image/icon/instagram.png" style="height: 50px; width: 50px; " onclick="printBtnClick()" />
+                <a href="mailto:cindych97@naver.com">
+                    <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; "
+                        onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
+                </a>
+                <a href="" download="image/poster/on_and_off.jpg">
+                    <img src="image/icon/instagram.png" style="height: 50px; width: 50px; "
+                        onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
+                </a>
             </div>
 
 

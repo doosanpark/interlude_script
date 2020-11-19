@@ -8,7 +8,7 @@
     <!--load all styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="image/favicon.ico">
-    
+
     <script language="JavaScript" type="text/javascript">
 
         let imgArray = new Array();
@@ -31,16 +31,6 @@
         function setImage() {
 
             for (let i = 1; i <= 532; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
                 imgArray[i] = "image/falling/falling(" + i + ").jpg";
             }
             showImage();
@@ -63,7 +53,7 @@
             //60 -> 455 (-77)
             if (imgNum >= 530) {
                 keepPlay = false;
-                //window.location.replace("http://interlude.live:8080/build/on_and_off2.html");
+                //window.location.replace("http://www.interlude.live:8080/build/on_and_off2.html");
                 window.location.replace("http://127.0.0.1:5500/on_and_off2.html");
             }
             if (keepPlay) {
@@ -76,12 +66,12 @@
             //오디오
             if (!bgm.canPlayType('audio/ogg')) alert('브라우저가 ogg 재생을 지원하지 않습니다.');
             else {
-                let bgm_url = 'http://upload.wikimedia.org/wikipedia/commons/d/d7/Wikinews_Remix_Jingle.ogg';
+                let bgm_url = 'image/sound/Hiroshi Yoshimura - Wet Land.mp3';
                 bgm = new Audio(bgm_url);
-                bgm.volume = 0;
+                bgm.pause();
+                bgm.volume = 0.1;
                 bgm.loop = true;
-                //bgm.play();
-
+                bgm.play();
             }
         }
 
@@ -160,7 +150,7 @@
         function showModal() {
             buttonClicked = true;
 
-            let widthLength = '87.5%';
+            let widthLength = '90%';
             let heightLength = '100%';
 
             let modalContent = document.getElementById("modalContent");
@@ -175,7 +165,6 @@
             btn.style.opacity = 1;
             btn.style.borderColor = "#001d85";
 
-
             $('#btnText').addClass('animation_txt');
             let btnText = document.getElementById("btnText");
             btnText.style.color = 'white';
@@ -187,23 +176,44 @@
             $('#myModal').hide();
             $('#btn').addClass('deactivate_animation_btn');
             let btn = document.getElementById("btn");
-            btn.style.backgroundColor = "transparent";
-            btn.style.opacity = 0.1;
-            btn.style.borderColor = "black";
-
+            btn.style.borderColor = "rgba(147, 147, 147, 0.7)";
 
             $('#btnText').addClass('deactivate_animation_txt');
             let btnText = document.getElementById("btnText");
-            btnText.style.color = 'black';
-            btnText.style.opacity = 0.1;
+            btnText.style.color = 'rgb(147, 147, 147, 0.7)';
         }
 
-        function mouseEvent(){
+        function btnHoverEvent() {
+            if (buttonClicked === false) {
+                let btn = document.getElementById("btn");
+                btn.style.background = "rgba(124,124,124,0.5)";
+            }
+        }
+        function btnOffEvent() {
+            if (buttonClicked === false) {
+                let btn = document.getElementById("btn");
+                btn.style.background = "rgba(0,0,0,0)";
+            }
+        }
+
+        function mouseEvent() {
             mouseCursor = document.querySelector(".cursor");
             window.addEventListener("scroll", cursor);
             window.addEventListener("mousemove", cursor);
             mouseCursor.style.backgroundColor = "black";
         }
+        
+        function activeMouseEffect() {
+            mouseCursor.style.backgroundColor = "#0043ff";
+            mouseCursor.style.border = "0px"
+            mouseCursor.style.outline = "0px"
+        }
+
+        function deActiveMouseEffect() {
+            mouseCursor.style.backgroundColor = "black";
+            mouseCursor.style.border = "2px solid var(--color-texta)";
+        }
+
         function cursor(e) {
             mouseCursor.style.left = e.pageX + "px";
             mouseCursor.style.top = e.pageY - scrollY + "px";
@@ -226,10 +236,10 @@
         <img id="introimg" style=" opacity: 0.1;" />
     </div>
     <div id="btnClass">
-        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()"></button>
+        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()" onmouseout="btnOffEvent()"></button>
     </div>
     <div id="btnText">
-        <span id="textOfBtn" onclick="modalEvent()" onmouseover="btnHoverEvent()">?</span>
+        <span id="textOfBtn" onclick="modalEvent()" onmouseover="btnHoverEvent()" onmouseout="btnOffEvent()">?</span>
     </div>
 
     <div id="myModal" class="modal">
@@ -247,29 +257,34 @@
                             <div style="height: 30%;">
                                 <span id="sceneNumber">02.</span>
                             </div>
-                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> Falling </div>
+                            <div style="height: 10%; margin-left: 10px; font-weight: 500;">Falling</div>
                         </div>
 
                         <div id="detailContents" style="margin-left: 10px;">
-                            
+
                             <span style="font-weight: 500;">2020. 4. 27 (Mon)
                             </span><br /><br />
 
-                            <span style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; letter-spacing: -0.5px; line-height: 22px;">
+                            <span
+                                style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; letter-spacing: -0.5px; line-height: 22px;">
                                 이때까지 잘 지내왔는데 어쩌다 이렇게 지쳐버렸는지 모르겠다.
-왜 문제는 해결하려 할수록 더 나빠지기만 하는 건지, 내가 해결할 수 있는 일이라는 게 과연 존재하긴 하는 건지,  이런 수많은 질문이 내가 잘 할 수 있는 게 아무것도 없다는 걸 증명하는 것 같아서 나는 비참해졌다. 내 앞에 있는 많은 문제들은 진짜 문제가 아니었다. 내 속의 깊은 곳부터 무언가 잘못된 것이 분명하다는 생각에 정신이 멍해졌다.
-
-
+                                왜 문제는 해결하려 할수록 더 나빠지기만 하는 건지, 내가 해결할 수 있는 일이라는 게 과연 존재하긴 하는 건지,  이런 수많은 질문이 내가 잘 할 수 있는
+                                게 아무것도 없다는 걸 증명하는 것 같아서 나는 비참해졌다. 내 앞에 있는 많은 문제들은 진짜 문제가 아니었다. 내 속의 깊은 곳부터 무언가 잘못된 것이
+                                분명하다는 생각에 정신이 멍해졌다.
                             </span>
                             <span style="display: inline-block; height: auto; margin-bottom: 25px;">
-                                I’ve been doing well so far, but I don’t know why I’m so exhausted now. Why is the problem getting worse when I try to solve it? Is there anything that I can solve? I became miserable because these kinds of questions seemed to prove that there was nothing that I could do well. Many things in front of me were not real problems. I was dazed after I came to know that something deeper inside of me must be wrong.
+                                I’ve been doing well so far, but I don’t know why I’m so exhausted now. Why is the
+                                problem getting worse when I try to solve it? Is there anything that I can solve? I
+                                became miserable because these kinds of questions seemed to prove that there was nothing
+                                that I could do well. Many things in front of me were not real problems. I was dazed
+                                after I came to know that something deeper inside of me must be wrong.
                             </span>
 
-                            
+
                             <span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">
                                 포스터는 클릭하면 다운과 프린트가 가능하다.
-                            </span><br/>
-                            <span style="height: 0px; font-size: 12.5px; width: 100%; text-align: left;">
+                            </span><br />
+                            <span style="height: 0px; font-size: 11.5px; width: 100%; text-align: left;">
                                 You can download and print when you click the poster.</span>
                         </div>
 
@@ -297,8 +312,14 @@
 
             </div>
             <div id="options">
-                <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; " onclick="emailBtnClick()" />
-                <img src="image/icon/instagram.png" style="height: 50px; width: 50px; " onclick="printBtnClick()" />
+                <a href="mailto:cindych97@naver.com">
+                    <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; "
+                        onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
+                </a>
+                <a href="" download="image/poster/falling.jpg">
+                    <img src="image/icon/instagram.png" style="height: 50px; width: 50px; "
+                        onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
+                </a>
             </div>
 
 

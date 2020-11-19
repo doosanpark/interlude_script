@@ -11,6 +11,7 @@
 
     <script language="JavaScript" type="text/javascript">
 
+
         //이미지
         let imgArray1 = new Array();
         let imgArray2 = new Array();
@@ -37,6 +38,9 @@
         let he;
         let cursorAction = false;
         let mouseCursor;
+
+        let btn;
+        let btnText;
 
         let keepPlay = true;
 
@@ -85,8 +89,6 @@
             } else if (event.detail) delta = -event.detail / 3;
             if (delta) handle(delta);
         }
-
-
 
         function setImage() {
             objScroll = document.getElementById("scroll");
@@ -176,7 +178,7 @@
                         if (imgNum > 1200) {
                             imgNum = 1;;
                             keepPlay = false;
-                            //window.location.replace("http://interlude.live:8080/build/take_to_a_depth.html");
+                            //window.location.replace("http://www.interlude.live:8080/build/take_to_a_depth.html");
                             window.location.replace("http://127.0.0.1:5500/take_to_a_depth.html");
                         }
                     }
@@ -204,12 +206,11 @@
             //오디오
             if (!bgm.canPlayType('audio/ogg')) alert('브라우저가 ogg 재생을 지원하지 않습니다.');
             else {
-                let bgm_url = 'http://upload.wikimedia.org/wikipedia/commons/d/d7/Wikinews_Remix_Jingle.ogg';
+                let bgm_url = 'image/sound/Hiroshi Yoshimura - Wet Land.mp3';
                 bgm = new Audio(bgm_url);
                 bgm.pause();
                 bgm.volume = 0.1;
                 bgm.loop = true;
-                bgm.muted = true;
                 bgm.play();
             }
         }
@@ -293,31 +294,23 @@
                 he *= 1;
 
                 x -= (window.innerWidth - wi) / 2
-                if (cursorAction) {
+                if (cursorAction === true && buttonClicked === false) {
                     switch (sceneCase) {
                         case 1:
                             if (x > wi * 0.35 && x < wi * 0.52 && y > he * 0.45 && y < he * 0.75) {
-                                mouseCursor.style.backgroundColor = "#0043ff";
-                                mouseCursor.style.border = "0px"
-                                mouseCursor.style.outline = "0px"
+                                activeMouseEffect();
                             } else {
-                                mouseCursor.style.backgroundColor = "black";
-                                mouseCursor.style.border = "2px solid var(--color-texta)";
+                                deActiveMouseEffect();
                             }
                             break;
                         default:
-                            mouseCursor.style.backgroundColor = "black";
-                            mouseCursor.style.border = "2px solid var(--color-texta)";
+                            deActiveMouseEffect();
                             break;
 
                     }
                 }
 
             });
-
-
-
-
         }
 
         function cursor(e) {
@@ -326,18 +319,16 @@
         }
 
         function imgClickEvent() {
-            if (cursorAction) {
+            if (cursorAction === true && buttonClicked === false) {
                 switch (sceneCase) {
                     case 1:
                         if (x > wi * 0.35 && x < wi * 0.52 && y > he * 0.45 && y < he * 0.75) {
                             sceneCase++;
-                            mouseCursor.style.backgroundColor = "black";
-                            mouseCursor.style.border = "2px solid var(--color-texta)";
+                            deActiveMouseEffect();
                         }
                         break;
                     default:
-                        mouseCursor.style.backgroundColor = "black";
-                        mouseCursor.style.border = "2px solid var(--color-texta)";
+                        deActiveMouseEffect();
                         break;
 
 
@@ -345,6 +336,16 @@
             }
             $('body').css('cursor', 'default');
 
+        }
+
+        function activeMouseEffect() {
+            mouseCursor.style.backgroundColor = "#0043ff";
+            mouseCursor.style.border = "0px"
+            mouseCursor.style.outline = "0px"
+        }
+        function deActiveMouseEffect() {
+            mouseCursor.style.backgroundColor = "black";
+            mouseCursor.style.border = "2px solid var(--color-texta)";
         }
 
         function modalEvent() {
@@ -363,55 +364,55 @@
 
             buttonClicked = true;
 
-            let widthLength = '87.5%';
+            let widthLength = '90%';
             let heightLength = '100%';
 
             let modalContent = document.getElementById("modalContent");
             modalContent.style.width = widthLength;
             modalContent.style.height = heightLength;
 
-
             $('#myModal').show();
             $('#btn').addClass('activate_animation_btn');
-            let btn = document.getElementById("btn");
+            btn = document.getElementById("btn");
             btn.style.backgroundColor = "#001d85";
             btn.style.opacity = 1;
             btn.style.borderColor = "#001d85";
 
-
-
             $('#btnText').addClass('animation_txt');
-            let btnText = document.getElementById("btnText");
+            btnText = document.getElementById("btnText");
             btnText.style.color = 'white';
             btnText.style.opacity = 1;
         }
 
         function hideModal() {
-            if(sceneCase===3){
+            if (sceneCase === 3) {
                 objScroll.style.opacity = 1;
             }
 
             buttonClicked = false;
             $('#myModal').hide();
             $('#btn').addClass('deactivate_animation_btn');
-            let btn = document.getElementById("btn");
-            btn.style.backgroundColor = "transparent";
-            btn.style.opacity = 0.1;
-            btn.style.borderColor = "black";
-
+            btn = document.getElementById("btn");
+            btn.style.borderColor = "rgba(147, 147, 147, 0.7)";
 
             $('#btnText').addClass('deactivate_animation_txt');
-            let btnText = document.getElementById("btnText");
-            btnText.style.color = 'black';
-            btnText.style.opacity = 0.1;
+            btnText = document.getElementById("btnText");
+            btnText.style.color = 'rgb(147, 147, 147, 0.7)';
         }
+
         function btnHoverEvent() {
-            let btn = document.getElementById("btn");
-            btn.style.background = "rgba(124,124,124,0.5)";
+            if (buttonClicked === false) {
+
+                btn = document.getElementById("btn");
+                btn.style.background = "rgba(124,124,124,0.5)";
+            }
         }
+
         function btnOffEvent() {
-            let btn = document.getElementById("btn");
-            btn.style.background = "rgba(0,0,0,0)";
+            if (buttonClicked === false) {
+                btn = document.getElementById("btn");
+                btn.style.background = "rgba(0,0,0,0)";
+            }
         }
 
         function initializing() {
@@ -456,7 +457,7 @@
                     <div id="details">
                         <div style="height: 50%; width: 50%;">
                             <div style="height: 30%;">
-                                <span id="sceneNumber">04.</span>
+                                <span id="sceneNumber">05.</span>
                             </div>
                             <div style="height: 10%; margin-left: 10px; font-weight: 500;"> Endless Diving</div>
                         </div>
@@ -484,7 +485,7 @@
                             <span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">
                                 포스터는 클릭하면 다운과 프린트가 가능하다.
                             </span><br />
-                            <span style="height: 0px; font-size: 12.5px; width: 100%; text-align: left;">
+                            <span style="height: 0px; font-size: 11.5px; width: 100%; text-align: left;">
                                 You can download and print when you click the poster.</span>
                         </div>
 
@@ -499,10 +500,10 @@
                         <div id='smalDot'></div>
                         <div id='smalDot'></div>
                         <div id='smalDot'></div>
-                        <div id='smalDot'></div>
-                        <div id='smalDot'></div>
-                        <div id='smalDot'></div>
                         <div id='bigDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
                         <div id='smalDot'></div>
                     </div>
                 </div>
@@ -512,8 +513,14 @@
 
             </div>
             <div id="options">
-                <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; " onclick="emailBtnClick()" />
-                <img src="image/icon/instagram.png" style="height: 50px; width: 50px; " onclick="printBtnClick()" />
+                <a href="mailto:cindych97@naver.com">
+                    <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; "
+                        onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
+                </a>
+                <a href="" download="image/poster/endless_diving.jpg">
+                    <img src="image/icon/instagram.png" style="height: 50px; width: 50px; "
+                        onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
+                </a>
             </div>
 
 

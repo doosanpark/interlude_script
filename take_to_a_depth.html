@@ -98,7 +98,7 @@
                     //60s -> 455 (-77)
                     if (imgNum > 240) {
                         keepPlay = false;
-                        //window.location.replace("http://interlude.live:8080/build/wave.html");
+                        //window.location.replace("http://www.interlude.live:8080/build/wave.html");
                         window.location.replace("http://127.0.0.1:5500/wave.html");
                     }
                     break;
@@ -115,12 +115,11 @@
             //오디오
             if (!bgm.canPlayType('audio/ogg')) alert('브라우저가 ogg 재생을 지원하지 않습니다.');
             else {
-                let bgm_url = 'http://upload.wikimedia.org/wikipedia/commons/d/d7/Wikinews_Remix_Jingle.ogg';
+                let bgm_url = 'image/sound/Hiroshi Yoshimura - Wet Land.mp3';
                 bgm = new Audio(bgm_url);
                 bgm.pause();
                 bgm.volume = 0.1;
                 bgm.loop = true;
-                bgm.muted = true;
                 bgm.play();
             }
         }
@@ -175,8 +174,12 @@
         }
 
         function mouseEvent() {
-            //마우스 커서 이벤트
+            mouseCursor = document.querySelector(".cursor");
+            window.addEventListener("scroll", cursor);
+            window.addEventListener("mousemove", cursor);
+            mouseCursor.style.backgroundColor = "black";
 
+            //마우스 커서 이벤트
             $(document).mousemove(function (e) {
 
                 x = e.pageX;
@@ -195,14 +198,17 @@
                 console.log('x', x);
                 console.log('check', x > wi * 0.41 && x < wi * 0.46);
 
-                if (cursorAction) {
+                if (cursorAction === true && buttonClicked === false) {
                     switch (sceneCase) {
                         case 1:
                             if (x > wi * 0.41 && x < wi * 0.46 && y > he * 0.3 && y < he * 0.67) {
-                                $('body').css('cursor', 'pointer');
+                                activeMouseEffect();
                             } else {
-                                $('body').css('cursor', 'default');
+                                deActiveMouseEffect();
                             }
+                            break;
+                        default:
+                        deActiveMouseEffect();
                             break;
                     }
                 }
@@ -211,12 +217,12 @@
         }
 
         function imgClickEvent() {
-            if (cursorAction) {
+            if (cursorAction === true && buttonClicked === false) {
                 switch (sceneCase) {
                     case 1:
                         if (x > wi * 0.41 && x < wi * 0.46 && y > he * 0.3 && y < he * 0.67) {
                             sceneCase++;
-
+                            deActiveMouseEffect();
                         }
                         imgNum = 1;
                         break;
@@ -238,6 +244,16 @@
             $('body').css('cursor', 'default');
 
         }
+        function activeMouseEffect() {
+            mouseCursor.style.backgroundColor = "#0043ff";
+            mouseCursor.style.border = "0px"
+            mouseCursor.style.outline = "0px"
+        }
+        function deActiveMouseEffect() {
+            mouseCursor.style.backgroundColor = "black";
+            mouseCursor.style.border = "2px solid var(--color-texta)";
+        }
+
         function modalEvent() {
             $('#btn').removeClass();
             $('#btnText').removeClass();
@@ -252,7 +268,7 @@
         function showModal() {
             buttonClicked = true;
 
-            let widthLength = '87.5%';
+            let widthLength = '90%';
             let heightLength = '100%';
 
             let modalContent = document.getElementById("modalContent");
@@ -267,7 +283,6 @@
             btn.style.opacity = 1;
             btn.style.borderColor = "#001d85";
 
-
             $('#btnText').addClass('animation_txt');
             let btnText = document.getElementById("btnText");
             btnText.style.color = 'white';
@@ -279,15 +294,29 @@
             $('#myModal').hide();
             $('#btn').addClass('deactivate_animation_btn');
             let btn = document.getElementById("btn");
-            btn.style.backgroundColor = "transparent";
-            btn.style.opacity = 0.1;
-            btn.style.borderColor = "black";
-
+            btn.style.borderColor = "rgba(147, 147, 147, 0.7)";
 
             $('#btnText').addClass('deactivate_animation_txt');
             let btnText = document.getElementById("btnText");
-            btnText.style.color = 'black';
-            btnText.style.opacity = 0.1;
+            btnText.style.color = 'rgb(147, 147, 147, 0.7)';
+        }
+
+        function btnHoverEvent() {
+            if (buttonClicked === false) {
+                let btn = document.getElementById("btn");
+                btn.style.background = "rgba(124,124,124,0.5)";
+            }
+        }
+        function btnOffEvent() {
+            if (buttonClicked === false) {
+                let btn = document.getElementById("btn");
+                btn.style.background = "rgba(0,0,0,0)";
+            }
+        }
+
+        function cursor(e) {
+            mouseCursor.style.left = e.pageX + "px";
+            mouseCursor.style.top = e.pageY - scrollY + "px";
         }
 
         function initializing() {
@@ -302,14 +331,15 @@
 </head>
 
 <body onload="initializing()">
+    <div class="cursor"></div>
     <div class="imgClass">
         <img id="introimg" style=" opacity: 0.1;" onclick="imgClickEvent()" />
     </div>
     <div id="btnClass">
-        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()"></button>
+        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()" onmouseout="btnOffEvent()"></button>
     </div>
     <div id="btnText">
-        <span id="textOfBtn" onclick="modalEvent()" onmouseover="btnHoverEvent()">?</span>
+        <span id="textOfBtn" onclick="modalEvent()" onmouseover="btnHoverEvent()" onmouseout="btnOffEvent()">?</span>
     </div>
 
     <div id="myModal" class="modal">
@@ -327,24 +357,28 @@
                             <div style="height: 30%;">
                                 <span id="sceneNumber">05.</span>
                             </div>
-                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> Take to a depth</div>
+                            <div style="height: 10%; margin-left: 10px; font-weight: 500;">Take to a depth</div>
                         </div>
 
                         <div id="detailContents" style="margin-left: 10px;">
 
-                            <span style="font-weight: 500;">2020. 7. 30(Thu)
+                            <span style="font-weight: 500;">2020.7.30(Thu)
                             </span><br /><br />
 
                             <span
                                 style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; letter-spacing: -0.5px; line-height: 22px;">
                                 너무 긴 악몽을 꾸는 것 같다. 이제 깰 때가 된거같은데 아직도 나는 그대로다. 우울에 지친건지 스스로가 질려버린건지 잘 모르겠다. 아무 힘도 나지 않고
-                                <span style="text-decoration: underline; font-weight: bold;">누군가가 나를 건드리면</span> 다 포기하고 드러누워 잠들어버리고 싶었다. 이미 바닥까지 왔다고 생각했는데 자괴감이 더 깊은 곳으로 나를 끌어당겼다.
+                                누군가가 <span class='korOfTouchImg'>나를 건드리면</span> 다 포기하고 드러누워 잠들어버리고 싶었다. 이미 바닥까지 왔다고
+                                생각했는데 자괴감이 더 깊은 곳으로 나를 끌어당겼다.
+
                             </span>
                             <span style="display: inline-block; height: auto; margin-bottom: 25px;">
                                 I feel like I'm having too long a nightmare. I think it's time to wake up, but I'm still
-                                here. I'm not sure if I'm sick of depression or myself. <span style="text-decoration: underline; font-weight: 500;">Whenever something annoyed me</span>, I
+                                here. I'm not sure if I'm sick of depression or myself. Whenever something <span
+                                    class='engOfTouchImg'>annoyed me</span>, I
                                 wanted to give up everything and lie down and fall asleep. I thought I was already on
                                 the bottom. A sense of self-destruction  pulled me to the bottom.
+
 
                             </span>
 
@@ -352,7 +386,7 @@
                             <span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">
                                 포스터는 클릭하면 다운과 프린트가 가능하다.
                             </span><br />
-                            <span style="height: 0px; font-size: 12.5px; width: 100%; text-align: left;">
+                            <span style="height: 0px; font-size: 11.5px; width: 100%; text-align: left;">
                                 You can download and print when you click the poster.</span>
                         </div>
 
@@ -380,8 +414,14 @@
 
             </div>
             <div id="options">
-                <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; " onclick="emailBtnClick()" />
-                <img src="image/icon/instagram.png" style="height: 50px; width: 50px; " onclick="printBtnClick()" />
+                <a href="mailto:cindych97@naver.com">
+                    <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; "
+                        onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
+                </a>
+                <a href="" download="image/poster/take_to_a_depth.jpg">
+                    <img src="image/icon/instagram.png" style="height: 50px; width: 50px; "
+                        onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
+                </a>
             </div>
 
 

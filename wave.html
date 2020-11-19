@@ -8,7 +8,7 @@
     <!--load all styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="image/favicon.ico">
-    
+
     <script language="JavaScript" type="text/javascript">
 
 
@@ -39,16 +39,6 @@
         function setImage() {
 
             for (let i = 1; i <= 94; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
                 imgArray1[i] = "image/wave/wave1/wave(" + i + ").jpg";
             }
             for (let i = 1; i <= 332; i++) {
@@ -89,7 +79,7 @@
                     }
                     if (imgNum > 310) {
                         keepPlay = false;
-                        //window.location.replace("http://interlude.live:8080/build/off_and_on.html");
+                        //window.location.replace("http://www.interlude.live:8080/build/off_and_on.html");
                         window.location.replace("http://127.0.0.1:5500/off_and_on.html");
                     }
                     break;
@@ -104,7 +94,7 @@
                     }
                     if (imgNum > 310) {
                         keepPlay = false;
-                        //window.location.replace("http://interlude.live:8080/build/off_and_on.html");
+                        //window.location.replace("http://www.interlude.live:8080/build/off_and_on.html");
                         window.location.replace("http://127.0.0.1:5500/off_and_on.html");
                     }
                     break;
@@ -121,12 +111,12 @@
             //오디오
             if (!bgm.canPlayType('audio/ogg')) alert('브라우저가 ogg 재생을 지원하지 않습니다.');
             else {
-                let bgm_url = 'http://upload.wikimedia.org/wikipedia/commons/d/d7/Wikinews_Remix_Jingle.ogg';
+                let bgm_url = 'image/sound/Hiroshi Yoshimura - Wet Land.mp3';
                 bgm = new Audio(bgm_url);
-                bgm.volume = 0;
+                bgm.pause();
+                bgm.volume = 0.1;
                 bgm.loop = true;
-                //bgm.play();
-
+                bgm.play();
             }
         }
         function setAudioFadeIn() {
@@ -192,6 +182,11 @@
         }
 
         function mouseEvent() {
+            mouseCursor = document.querySelector(".cursor");
+            window.addEventListener("scroll", cursor);
+            window.addEventListener("mousemove", cursor);
+            mouseCursor.style.backgroundColor = "black";
+
             //마우스 커서 이벤트
             $(document).ready(function () {
 
@@ -206,30 +201,46 @@
                     y *= 1;
                     wi *= 1;
                     he *= 1;
-                    x -= (screen.width - wi) / 2;
+                    x -= (window.innerWidth - wi) / 2
 
-                    if (sceneCase === 2 && clickEventOccured === 0) {
-                        if (x > wi * 0.85 && x < wi * 0.985 && y > he * 0.33 && y < he * 0.61) {
-                            $('body').css('cursor', 'pointer');
-                        }
-                        else {
-                            $('body').css('cursor', 'default');
+                    if (buttonClicked === false) {
+                        if (sceneCase === 2 && clickEventOccured === 0) {
+                            if (x > wi * 0.73 && x < wi * 0.985 && y > he * 0.35 && y < he * 0.55) {
+                                activeMouseEffect();
+                            }
+                            else {
+                                deActiveMouseEffect();
+                            }
+                        } else {
+                            deActiveMouseEffect();
                         }
                     }
-
                 });
             });
         }
 
         function imgClickEvent() {
-            if (sceneCase === 2 && clickEventOccured === 0) {
-                if (x > wi * 0.85 && x < wi * 0.985 && y > he * 0.33 && y < he * 0.61) {
-                    sceneCase++;
-                }
+            if (buttonClicked === false) {
+                if (sceneCase === 2 && clickEventOccured === 0) {
+                    if (x > wi * 0.73 && x < wi * 0.985 && y > he * 0.35 && y < he * 0.55) {
+                        sceneCase++;
+                        deActiveMouseEffect();
+                    }
 
+                }
             }
             $('body').css('cursor', 'default');
 
+        }
+
+        function activeMouseEffect() {
+            mouseCursor.style.backgroundColor = "#0043ff";
+            mouseCursor.style.border = "0px"
+            mouseCursor.style.outline = "0px"
+        }
+        function deActiveMouseEffect() {
+            mouseCursor.style.backgroundColor = "black";
+            mouseCursor.style.border = "2px solid var(--color-texta)";
         }
 
         function modalEvent() {
@@ -246,7 +257,7 @@
         function showModal() {
             buttonClicked = true;
 
-            let widthLength = '87.5%';
+            let widthLength = '90%';
             let heightLength = '100%';
 
             let modalContent = document.getElementById("modalContent");
@@ -261,7 +272,6 @@
             btn.style.opacity = 1;
             btn.style.borderColor = "#001d85";
 
-
             $('#btnText').addClass('animation_txt');
             let btnText = document.getElementById("btnText");
             btnText.style.color = 'white';
@@ -273,15 +283,29 @@
             $('#myModal').hide();
             $('#btn').addClass('deactivate_animation_btn');
             let btn = document.getElementById("btn");
-            btn.style.backgroundColor = "transparent";
-            btn.style.opacity = 0.1;
-            btn.style.borderColor = "black";
-
+            btn.style.borderColor = "rgba(147, 147, 147, 0.7)";
 
             $('#btnText').addClass('deactivate_animation_txt');
             let btnText = document.getElementById("btnText");
-            btnText.style.color = 'black';
-            btnText.style.opacity = 0.1;
+            btnText.style.color = 'rgb(147, 147, 147, 0.7)';
+        }
+
+        function btnHoverEvent() {
+            if (buttonClicked === false) {
+                let btn = document.getElementById("btn");
+                btn.style.background = "rgba(124,124,124,0.5)";
+            }
+        }
+        function btnOffEvent() {
+            if (buttonClicked === false) {
+                let btn = document.getElementById("btn");
+                btn.style.background = "rgba(0,0,0,0)";
+            }
+        }
+
+        function cursor(e) {
+            mouseCursor.style.left = e.pageX + "px";
+            mouseCursor.style.top = e.pageY - scrollY + "px";
         }
 
         function initializing() {
@@ -297,17 +321,15 @@
 </head>
 
 <body onload="initializing()">
+    <div class="cursor"></div>
     <div class="imgClass">
         <img id="introimg" style=" opacity: 0.1;" onclick="imgClickEvent()" />
     </div>
     <div id="btnClass">
-        <button id="btn" onclick="modalEvent()"></button>
-    </div>
-    <div id="btnClass">
-        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()"></button>
+        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()" onmouseout="btnOffEvent()"></button>
     </div>
     <div id="btnText">
-        <span id="textOfBtn" style="font-size: 15px;" onclick="modalEvent()" onmouseover="btnHoverEvent()">?</span>
+        <span id="textOfBtn" onclick="modalEvent()" onmouseover="btnHoverEvent()" onmouseout="btnOffEvent()">?</span>
     </div>
 
     <div id="myModal" class="modal">
@@ -315,7 +337,6 @@
             <div id="container">
                 <div id="posterContainer" class="modalContainer">
                     <img src="image/poster/empty.jpg" />
-
 
                 </div>
                 <div class="modalLineCenter"></div>
@@ -325,40 +346,37 @@
                             <div style="height: 30%;">
                                 <span id="sceneNumber">06.</span>
                             </div>
-                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> On & Off.</div>
+                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> Empty</div>
                         </div>
 
                         <div id="detailContents" style="margin-left: 10px;">
 
-                            <span style="font-weight: 500;">Prologue</span><br /><br />
+                            <span style="font-weight: 500;">
+                                2020.8.28 (Fri)
+
+                            </span><br /><br />
 
                             <span
-                                style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; 
-                                letter-spacing: -0.5px; line-height: 22px;">
-                                “어떤 일로 오셨어요”
-                                차트를 넘기던 의사는 고개를 들어 그를 쳐다봤다.한참 동안 침묵을 유지하던 담담한 표정의 그는 천천히 손을 뻗어 <span
-                                    style="text-decoration: underline; font-weight: bold;">테이블 위의 작은 등</span>을
-                                켰다. 텅 비어있던
-                                공간에 등이 켜지며 전기가 흐르는 날카로운 소리로 가득 찼다가 이내 사라졌다. 의자 밑으로 드리워진 <span
-                                    style="text-decoration: underline; font-weight: bold;">그</span>의 선명한 <span
-                                    style="text-decoration: underline; font-weight: bold;">그림자</span>가 어쩐지 불안정해 보인다.
+                                style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; letter-spacing: -0.5px; line-height: 22px;">
+                                파도가 거칠어진 바다를 멍하니 서서 바라보았다. 끊임없이 부서지고 일렁이는 파도가 내가 느끼는 우울과 비슷하다고 생각했다. 노력과 의지를 빼앗아
+                                <span class='korOfTouchImg'>망가뜨리기도 하고</span> 불안함을 <span class='korOfTouchImg'>떠밀기도
+                                    하는</span> 이 우울은 끝을 알 수 없어 공허하다. 공허함은 익숙해지지 않고 늘 서늘함으로 다가온다.
+
                             </span>
                             <span style="display: inline-block; height: auto; margin-bottom: 25px;">
-                                “hello, Sir, What have you come here for”
-                                The doctor, who was handing over the chart, looks up at him.After a long silence, he
-                                slowly
-                                reached out and turned on a small light on the table. The space was filled with the
-                                sound of
-                                electricity running sharply, and then disappeared. His shadow under the chair somehow
-                                looks
-                                unstable.
+                                I stood and watched the rough sea with a woozy head. I thought that wave looks like
+                                depression that I felt. Depression, which takes away and <span
+                                    class='engOfTouchImg'>destroys</span> my efforts, and
+                                sometimes it <span class='engOfTouchImg'>increases</span> my anxiety, makes me empty
+                                because nobody knows its end.
+                                Emptiness which i can’t get used to, and always comes as coolness.
                             </span>
 
 
                             <span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">
                                 포스터는 클릭하면 다운과 프린트가 가능하다.
                             </span><br />
-                            <span style="height: 0px; font-size: 12.5px; width: 100%; text-align: left;">
+                            <span style="height: 0px; font-size: 11.5px; width: 100%; text-align: left;">
                                 You can download and print when you click the poster.</span>
                         </div>
 
@@ -370,13 +388,13 @@
             <div id="modalBottom">
                 <div id="leftSideInBottom">
                     <div id="dots">
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
                         <div id='bigDot'></div>
-                        <div id='smalDot'></div>
-                        <div id='smalDot'></div>
-                        <div id='smalDot'></div>
-                        <div id='smalDot'></div>
-                        <div id='smalDot'></div>
-                        <div id='smalDot'></div>
                         <div id='smalDot'></div>
                     </div>
                 </div>
@@ -386,8 +404,14 @@
 
             </div>
             <div id="options">
-                <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; " onclick="emailBtnClick()" />
-                <img src="image/icon/instagram.png" style="height: 50px; width: 50px; " onclick="printBtnClick()" />
+                <a href="mailto:cindych97@naver.com">
+                    <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; "
+                        onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
+                </a>
+                <a href="" download="image/poster/empty.jpg">
+                    <img src="image/icon/instagram.png" style="height: 50px; width: 50px; "
+                        onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
+                </a>
             </div>
 
 

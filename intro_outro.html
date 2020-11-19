@@ -24,16 +24,6 @@
         function setImage() {
 
             for (let i = 1; i <= 80; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
                 imgArray[i] = "image/intro_outro/intro_outro(" + i + ").jpg";
             }
             showImage();
@@ -47,7 +37,7 @@
             //60 -> 455 (-77)
             if (imgNum > 80) {
                 keepPlay = false;
-                //window.location.replace("http://interlude.live:8080/build/on_and_off1.html");
+                //window.location.replace("http://www.interlude.live:8080/build/on_and_off1.html");
                 window.location.replace("http://127.0.0.1:5500/on_and_off1.html");
             }
             if (keepPlay) {
