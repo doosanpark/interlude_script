@@ -7,24 +7,545 @@
 
 html {
     text-align: center;
-  background-color: black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    
+    font-size: 17px;
+    font-family : -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: normal;
 }
 
 body{
-    background-color:white;
-    display:inline-block;
+    background-color:black;
+    display:flex;
     clear:both;
-    width: auto;
+    width: 100%;
     height: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 #introming{
+    position: fixed;
     width: auto;
     height: 100%;
+    z-index: 1;
+}
+
+.imgClass{
+    display: inline-block;
+    background-color: white;
+    top:0;
+    z-index:1;
+    min-height: 600px;
+    height: 100%;
+}
+
+#btnClass{
+    position: fixed; 
+    bottom: 0px; 
+    left: 0px;
+    right: 0px;
+    z-index: 4; 
+    height: 10%;
+    width: 100%;
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+}
+#btnText{
+    position: fixed; 
+    bottom: -3.5%; 
+    left: 0px;
+    right: 0px;
+    color: rgb(147, 147, 147, 0.7);
+    z-index : 5; 
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#textOfBtn{
+    width: 200px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#btn {
+    position: absolute; 
+    bottom: -100px; 
+    width: 140px;
+    height: 140px;
+    border-width: 2px;
+    border-color: rgba(147, 147, 147, 0.7);
+    border-radius: 100% 100% 100% 100% ;
+}
+
+
+#scroll{
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    mix-blend-mode: exclusion;
+    font-size: 25px;
+    color:rgb(255, 212, 0);
+    z-index:3;
+}
+
+#scrollDownTxt{
+    width: 200px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+/* 텍스트 클릭 후 비활성화 */
+@keyframes deActvateTxtAnimation{
+    from { 
+        color: white;
+        opacity: 1;
+    }
+    to { 
+        color: black; 
+        opacity: 0.1;
+    }
+}
+
+@-webkit-keyframes deActvateTxtAnimation {
+    from { 
+        color: white;
+        opacity: 1;
+    }
+    to { 
+        color: black; 
+        opacity: 0.1;
+    }
+}
+
+.deactivate_animation_txt {
+    -webkit-animation-name: deActvateTxtAnimation;
+    -webkit-animation-duration: 1s;
+    animation-name: deActvateTxtAnimation;
+    animation-duration: 1s;
+}
+
+/************************/
+
+/* 텍스트 클릭 후 활성화 */
+@keyframes txtAnimation{
+    from { 
+        color: black; 
+        opacity: 0.1;
+    }
+    to { 
+        color: white;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes txtAnimation {
+    from { 
+        color: black; 
+        opacity: 0.1;
+    }
+    to { 
+        color: white;
+        opacity: 1;
+    }
+}
+
+.animation_txt {
+    -webkit-animation-name: txtAnimation;
+    -webkit-animation-duration: 1s;
+    animation-name: txtAnimation;
+    animation-duration: 1s;
+}
+
+/************************/
+
+/* 버튼 클릭 후 비활성화 */
+@keyframes deActivateBtnAnimation{
+    from { 
+        border-color: #001d85; 
+        background-color: #001d85;
+        opacity: 1;
+    }
+    to { 
+        border-color: black; 
+        background-color: transparent;
+        opacity: 0.1;
+    }
+}
+
+@-webkit-keyframes deActivateBtnAnimation {
+    from { 
+        border-color: #001d85;
+        background-color: #001d85; 
+        opacity: 1;
+    }
+    to { 
+        border-color: black; 
+        background-color: transparent;
+        opacity: 0.1;
+    }
+}
+
+.deactivate_animation_btn {
+    -webkit-animation-name: deActivateBtnAnimation;
+    -webkit-animation-duration: 1s;
+    animation-name: deActivateBtnAnimation;
+    animation-duration: 1s;
+}
+/*****************************/
+
+/* 버튼 클릭 후 활성화 */
+@keyframes activateBtnAnimation{
+    from { 
+        border-color: black; 
+        opacity: 0.1;
+    }
+    to { border-color: #001d85; 
+        background-color: #001d85;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes activateBtnAnimation {
+    from { 
+        border-color: black; 
+        opacity: 0.1; 
+    }
+    to { 
+        border-color: #001d85;
+        background-color: #001d85; 
+        opacity: 1;
+    }
+}
+
+.activate_animation_btn {
+    -webkit-animation-name: activateBtnAnimation;
+    -webkit-animation-duration: 1s;
+    animation-name: activateBtnAnimation;
+    animation-duration: 1s;
+}
+/*****************************/
+
+
+/* 스크롤 전 활성화 */
+@keyframes activateScrollAnimation{
+    from { 
+        opacity: 0;
+    }
+    to { 
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes activateScrollAnimation {
+    from { 
+        opacity: 0;
+    }
+    to { 
+        opacity: 1;
+    }
+}
+
+.activate_animation_scroll {
+    -webkit-animation-name: activateScrollAnimation;
+    -webkit-animation-duration: 1s;
+    animation-name: activateScrollAnimation;
+    animation-duration: 1s;
+}
+
+/************************/
+
+/* 스크롤 후 비활성화 */
+@keyframes deActivateScrollAnimation{
+    from { 
+        opacity: 1;
+    }
+    to { 
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes deActivateScrollAnimation {
+    from { 
+        
+        opacity: 1;
+    }
+    to { 
+        opacity: 0;
+    }
+}
+
+.deactivate_animation_scroll {
+    -webkit-animation-name: deActivateScrollAnimation;
+    -webkit-animation-duration: 1s;
+    animation-name: deActivateScrollAnimation;
+    animation-duration: 1s;
+}
+/*****************************/
+
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    /**/
+    background-color: rgb(0, 0, 0);
+    background-color: rgb(0,0,0,0.4);
+
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+#posterContainer{
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+
+#modalContent {
+    background-color: #fefefe;
+    background: #fefefe;
+    margin: 0 auto;
+    /* 15% from the top and centered */
+    
+    min-width: 1000px;
+    width: 100%;
+    height: 100%;
+    /* Could be more or less, depending on screen size */
+
+}
+#dots{
+    width: 100%;
+    
+}
+
+#smalDot{
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 30px 5.5px;
+    background-color: rgba(0, 29, 133, 0.5);
+    border-radius: 100%;
+}
+#bigDot{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 30px 5.5px;
+    background-color: #001d85;
+    border-radius: 100%;
+}
+
+#container{
+    top: 0px;
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#musicSource{
+    font-size: 13px;
+    color: #001d85;
+    position: relative;
+    top: 50px;
+    right: 50px;
+    opacity: 0.5;
+}
+
+.modalContainer{
+    height: 75%; 
+    width: 48%;
+    display: flex;
+    justify-content: center;
+}
+
+.modalLineCenter{
+    border-left: 0.1px solid #001d85;
+    height: 85%;
+    margin: auto 0%;
+    opacity: 0.3;
+}
+
+#options{
+    position: fixed;
+    z-index: 6;
+    right: 40px;
+    bottom: 70px;
+    width: 15%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#modalBottom{
+    position: relative;
+    z-index: 5;
+    bottom: 100px;
+    width: 100%;
+    display: flex;    
+}
+
+#leftSideInBottom{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#rightSideInBottom{
+    width: 50%;
+    text-align: right;
+}
+
+#details{
+    height: 100%;
+    width: 70%;
+    text-align: left;
+    color: #001d85;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+
+
+#detailContents {
+    
+    font-size: 15px;
+    width: 80%;
+    height: auto;
+    
+}
+#detailLast{
+    font-size: 13px;
+}
+
+
+#btnInMenu{
+    right: 0px;
+    width: 40%;     
+    height: 100%;
+}
+
+
+#sceneNumber{
+    display: flex;
+    color: white; 
+    border-radius: 100%;
+    background-color: #001d85;
+    width: 45px;
+    height: 40px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5px;
+}
+
+/* 기본 색상 변수에 담기 */
+html {
+--color-texta: #1d1d1d;
+--color-textb: #fff;
+}
+/* 시스템 커서 안 보이게 숨기기 
+img {
+    cursor: none;
+}
+div{
+    cursor: none;
+}
+/* 커스텀 커서 스타일 정의해주기 */
+.cursor {
+    width: 3rem;
+    height: 3rem;
+    border: 2px solid var(--color-texta);
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    transition-property: background, transform;
+    transform-origin: 100% 100%;
+    backdrop-filter: sepia(20%);
+    background-color: #0043ff;
+    background-size: cover;
+
+    mix-blend-mode: exclusion;
+}
+
+.cursor-grow {
+  transform: scale(2);
+  background-color: var(--color-texta);
+}
+
+/* 점선이 들어갈 ::after(pseudo)요소 만들고 크기값 설정해주기*/
+.gnb li a:hover::after {
+  width: calc(100% - 2rem);
+  height: 3px;
+  background-size: contain; /* 배경 이미지(svg)가 알맞게 들어가도록*/
+}
+/* hover된 링크의 글자 색상 정의(하얀색)*/
+/* .hovered-link 선택자명은 추후 JS로 추가할 예정!*/
+.hovered-link {
+    color: var(--color-textb) !important;
+}
+/* .gnb li a:hover::after의 svg에 배경이미지 지정!*/
+.hovered-link::after {
+    background-image: url("../img/white_dot.svg");
+}
+
+
+
+#arrow:after,
+#arrow:before {
+    content: "";
+    position: fixed;
+    width: 0.1%;
+    height: 3%;
+    mix-blend-mode: exclusion;
+    background: rgb(255, 212, 0);;
+    top:53%;
+    z-index: 10;
+}
+
+#arrow:after {
+    right: 49.35%;
+    
+    -webkit-transform: rotate(45deg);
+    transform: rotate(60deg);
+}
+
+#arrow:before {
+    right: 50.65%;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-60deg);
 }

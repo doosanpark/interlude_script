@@ -7,6 +7,7 @@
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <!--load all styles -->
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="image/favicon.ico">
 
     <script language="JavaScript" type="text/javascript">
 
@@ -35,6 +36,7 @@
         let wi;
         let he;
         let cursorAction = false;
+        let mouseCursor;
 
         let keepPlay = true;
 
@@ -42,7 +44,14 @@
         let cntHowMany = 1;
         let scrollCase = 0;
 
-        if (window.addEventListener){
+        // 메뉴 버튼 클릭 활성화/ 비활성화
+        let buttonClicked = false;
+
+
+        //스크롤 다운 문구
+        let objScroll;
+
+        if (window.addEventListener) {
             window.addEventListener('DOMMouseScroll', wheel, false);
         }
         window.onmousewheel = document.onmousewheel = wheel;
@@ -60,6 +69,10 @@
             else {
                 scrollCase = 2;
             }
+            if (sceneCase === 3) {
+                $('#scroll').removeClass();
+                deActivateScrollAnimation();
+            }
         }
 
         //마우스 이벤트
@@ -76,44 +89,15 @@
 
 
         function setImage() {
-
+            objScroll = document.getElementById("scroll");
+            objScroll.style.opacity = '0';
             for (let i = 1; i <= 18; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
                 imgArray1[i] = "image/dive_into_the_shadow/dive_into_the_shadow1/dive_into_the_shadow(" + i + ").jpg";
             }
             for (let i = 1; i <= 26; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
                 imgArray2[i] = "image/dive_into_the_shadow/dive_into_the_shadow2/dive_into_the_shadow(" + i + ").jpg";
             }
-            for (let i = 1; i <= 2505; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
+            for (let i = 1; i <= 1203; i++) {
                 imgArray3[i] = "image/endless_diving/endless_diving(" + i + ").jpg";
             }
             showImage();
@@ -124,23 +108,34 @@
             objImg.style.opacity = imgOpacity;
             switch (sceneCase) {
                 case 1:
-                    objImg.src = imgArray1[imgNum++];
+                    objImg.src = imgArray1[imgNum];
+                    if (buttonClicked === false) {
+                        imgNum++;
+                    }
                     if (imgNum > 18) {
                         imgNum = 1;
                     }
                     break;
                 case 2:
-                    objImg.src = imgArray2[imgNum++];
+                    objImg.src = imgArray2[imgNum];
+                    if (buttonClicked === false) {
+                        imgNum++;
+                    }
                     if (imgNum > 26) {
-                        imgNum = 2300;
+                        imgNum = 1;
                         secCnt = 58;
                         sceneCase++;
                     }
                     break;
                 case 3:
-                    if (secCnt < 500 && imgNum < 2298) {
+                    if (secCnt < 350 && imgNum < 750) {
                         if (scrollCase == 0) {
-                            objImg.src = imgArray3[imgNum++];
+                            objImg.src = imgArray3[imgNum];
+                            if (buttonClicked === false) {
+                                imgNum++;
+                            }
+
+                            //50 넘겨야 멈추기 시작
                             if (cntHowMany == 50) {
                                 scrollCase++;
                             }
@@ -158,22 +153,31 @@
                         }
                         cntHowMany++;
 
-                    }
-                    if (imgNum >= 2298) {
-                        objImg.src = imgArray3[imgNum++];
 
-                        if (imgNum == 2400) {
+                        if (secCnt >= 150 && buttonClicked === false) {
+                            $('#scroll').removeClass();
+                            activateScrollAnimation();
+                        }
+                    }
+
+                    if (imgNum >= 750) {
+                        objImg.src = imgArray3[imgNum];
+                        if (buttonClicked === false) {
+                            imgNum++;
+                        }
+
+                        if (imgNum == 1120) {
                             volCnt = 0.001;
                             imgCnt = 0.03;
 
                             setAudioFadeOut();
                             setImgFadeOut();
                         }
-                        if (imgNum > 2490) {
+                        if (imgNum > 1200) {
                             imgNum = 1;;
                             keepPlay = false;
-                            window.location.replace("http://118.67.133.71:8080/build/take_to_a_depth.html");
-                            //window.location.replace("http://127.0.0.1:5500/take_to_a_depth.html");
+                            //window.location.replace("http://interlude.live:8080/build/take_to_a_depth.html");
+                            window.location.replace("http://127.0.0.1:5500/take_to_a_depth.html");
                         }
                     }
 
@@ -183,6 +187,16 @@
             if (keepPlay) {
                 setTimeout(showImage, secCnt);
             }
+        }
+
+        function deActivateScrollAnimation() {
+            $('#scroll').addClass('deactivate_animation_scroll');
+            objScroll.style.opacity = "0";
+        }
+
+        function activateScrollAnimation() {
+            $('#scroll').addClass('activate_animation_scroll');
+            objScroll.style.opacity = "1";
         }
 
         function setAudio() {
@@ -206,7 +220,7 @@
 
                 volCnt *= 1.1;
                 bgm.volume += volCnt;
-                setTimeout(setAudioFadeIn, 100);
+                setTimeout(setAudioFadeIn, 50);
             } else {
                 bgm.volume = 0.4;
             }
@@ -222,11 +236,11 @@
                 imgCnt *= 1.1;
                 imgOpacity += imgCnt;
 
-                setTimeout(setImgFadeIn, 100);
+                setTimeout(setImgFadeIn, 50);
             } else {
                 imgOpacity = 1;
                 cursorAction = true;
-                
+
             }
 
         }
@@ -237,7 +251,7 @@
             if (bgm.volume - volCnt * 1.1 > 0) {
                 volCnt *= 1.1;
                 bgm.volume -= volCnt;
-                setTimeout(setAudioFadeOut, 100);
+                setTimeout(setAudioFadeOut, 50);
             } else {
                 bgm.volume = 0;
             }
@@ -251,7 +265,7 @@
             //투명도
             if (opacityValue - imgCnt > 0) {
                 imgOpacity -= imgCnt;
-                setTimeout(setImgFadeOut, 100);
+                setTimeout(setImgFadeOut, 50);
             } else {
                 imgOpacity = 0;
             }
@@ -260,7 +274,11 @@
 
 
         function mouseEvent() {
-            //마우스 커서 이벤트
+            mouseCursor = document.querySelector(".cursor");
+            window.addEventListener("scroll", cursor);
+            window.addEventListener("mousemove", cursor);
+            //커스텀 커서의 left값과 top값을 커서의 XY좌표값과 일치시킴
+            mouseCursor.style.backgroundColor = "black";
 
             $(document).mousemove(function (e) {
 
@@ -274,31 +292,52 @@
                 wi *= 1;
                 he *= 1;
 
-                x -= (document.body.clientWidth - objImg.clientWidth) / 2
+                x -= (window.innerWidth - wi) / 2
                 if (cursorAction) {
                     switch (sceneCase) {
                         case 1:
-                            if (x > wi * 0.51 && x < wi * 0.59 && y > he * 0.37 && y < he * 0.52)
-                                $('body').css('cursor', 'pointer');
-                            else {
-                                $('body').css('cursor', 'default');
+                            if (x > wi * 0.35 && x < wi * 0.52 && y > he * 0.45 && y < he * 0.75) {
+                                mouseCursor.style.backgroundColor = "#0043ff";
+                                mouseCursor.style.border = "0px"
+                                mouseCursor.style.outline = "0px"
+                            } else {
+                                mouseCursor.style.backgroundColor = "black";
+                                mouseCursor.style.border = "2px solid var(--color-texta)";
                             }
+                            break;
+                        default:
+                            mouseCursor.style.backgroundColor = "black";
+                            mouseCursor.style.border = "2px solid var(--color-texta)";
                             break;
 
                     }
                 }
 
             });
+
+
+
+
+        }
+
+        function cursor(e) {
+            mouseCursor.style.left = e.pageX + "px";
+            mouseCursor.style.top = e.pageY - scrollY + "px";
         }
 
         function imgClickEvent() {
             if (cursorAction) {
                 switch (sceneCase) {
                     case 1:
-                        if (x > wi * 0.51 && x < wi * 0.59 && y > he * 0.37 && y < he * 0.52) {
+                        if (x > wi * 0.35 && x < wi * 0.52 && y > he * 0.45 && y < he * 0.75) {
                             sceneCase++;
-
+                            mouseCursor.style.backgroundColor = "black";
+                            mouseCursor.style.border = "2px solid var(--color-texta)";
                         }
+                        break;
+                    default:
+                        mouseCursor.style.backgroundColor = "black";
+                        mouseCursor.style.border = "2px solid var(--color-texta)";
                         break;
 
 
@@ -308,8 +347,74 @@
 
         }
 
-        function initializing() {
+        function modalEvent() {
+            $('#btn').removeClass();
+            $('#btnText').removeClass();
+            if (buttonClicked === false) {
+                showModal();
+            } else if (buttonClicked === true) {
+                hideModal();
+            }
 
+        }
+
+        function showModal() {
+            objScroll.style.opacity = 0;
+
+            buttonClicked = true;
+
+            let widthLength = '87.5%';
+            let heightLength = '100%';
+
+            let modalContent = document.getElementById("modalContent");
+            modalContent.style.width = widthLength;
+            modalContent.style.height = heightLength;
+
+
+            $('#myModal').show();
+            $('#btn').addClass('activate_animation_btn');
+            let btn = document.getElementById("btn");
+            btn.style.backgroundColor = "#001d85";
+            btn.style.opacity = 1;
+            btn.style.borderColor = "#001d85";
+
+
+
+            $('#btnText').addClass('animation_txt');
+            let btnText = document.getElementById("btnText");
+            btnText.style.color = 'white';
+            btnText.style.opacity = 1;
+        }
+
+        function hideModal() {
+            if(sceneCase===3){
+                objScroll.style.opacity = 1;
+            }
+
+            buttonClicked = false;
+            $('#myModal').hide();
+            $('#btn').addClass('deactivate_animation_btn');
+            let btn = document.getElementById("btn");
+            btn.style.backgroundColor = "transparent";
+            btn.style.opacity = 0.1;
+            btn.style.borderColor = "black";
+
+
+            $('#btnText').addClass('deactivate_animation_txt');
+            let btnText = document.getElementById("btnText");
+            btnText.style.color = 'black';
+            btnText.style.opacity = 0.1;
+        }
+        function btnHoverEvent() {
+            let btn = document.getElementById("btn");
+            btn.style.background = "rgba(124,124,124,0.5)";
+        }
+        function btnOffEvent() {
+            let btn = document.getElementById("btn");
+            btn.style.background = "rgba(0,0,0,0)";
+        }
+
+        function initializing() {
             setImage();
             mouseEvent();
             setAudio();
@@ -321,7 +426,99 @@
 </head>
 
 <body onload="initializing()">
-    <img id="introimg" style="opacity: 0.1" onclick="imgClickEvent()" />
+    <div id="scroll" onclick="imgClickEvent()">
+        <span id='scrollDownTxt'>Scroll Down</span>
+        <div id="arrow"></div>
+    </div>
+
+    <div class="cursor"></div>
+    <div class="imgClass">
+        <img id="introimg" style=" opacity: 0.1;" onclick="imgClickEvent()" />
+    </div>
+
+    <div id="btnClass">
+        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()" onmouseout="btnOffEvent()"></button>
+    </div>
+    <div id="btnText">
+        <span id="textOfBtn" onclick="modalEvent()" onmouseover="btnHoverEvent()" onmouseout="btnOffEvent()">?</span>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div id="modalContent">
+            <div id="container">
+                <div id="posterContainer" class="modalContainer">
+                    <img src="image/poster/endless_diving.jpg" />
+
+
+                </div>
+                <div class="modalLineCenter"></div>
+                <div class="modalContainer">
+                    <div id="details">
+                        <div style="height: 50%; width: 50%;">
+                            <div style="height: 30%;">
+                                <span id="sceneNumber">04.</span>
+                            </div>
+                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> Endless Diving</div>
+                        </div>
+
+                        <div id="detailContents" style="margin-left: 10px;">
+
+                            <span style="font-weight: 500;">2020. 6. 24 (Wed)
+                            </span><br /><br />
+
+                            <span
+                                style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; letter-spacing: -0.5px; line-height: 22px;">
+                                스스로 뛰어든 이 그림자 속이 처음엔 편안했다. 내가 만든 세상에서 우울이라는 감정을 다 써버리고 나면 자연스럽게 괜찮아질거라고 생각했는데 착각이었다. 우울은
+                                끝이 없었고, 계속 다른 형태로 찾아와 나를 지치게 만들었다. 우울의 깊이와 끝은 존재하긴 하는걸까.
+
+                            </span>
+                            <span style="display: inline-block; height: auto; margin-bottom: 25px;">
+                                At first, I felt comfortable in this shadow that I jumped on my own. I thought I'd get
+                                better after I used all my feelings of depression in the world that I made. But I was
+                                not. This depth of depression was endless, and continued to come in different ways, and
+                                that fact made me exhausted. I can’t be sure whether depression ends or not.
+
+                            </span>
+
+
+                            <span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">
+                                포스터는 클릭하면 다운과 프린트가 가능하다.
+                            </span><br />
+                            <span style="height: 0px; font-size: 12.5px; width: 100%; text-align: left;">
+                                You can download and print when you click the poster.</span>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div id="modalBottom">
+                <div id="leftSideInBottom">
+                    <div id="dots">
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='bigDot'></div>
+                        <div id='smalDot'></div>
+                    </div>
+                </div>
+                <div id="rightSideInBottom">
+                    <div id="musicSource">Music Source : Hiroshi Yoshimura - Wet Land</div>
+                </div>
+
+            </div>
+            <div id="options">
+                <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; " onclick="emailBtnClick()" />
+                <img src="image/icon/instagram.png" style="height: 50px; width: 50px; " onclick="printBtnClick()" />
+            </div>
+
+
+        </div>
+    </div>
 </body>
 
 </html>

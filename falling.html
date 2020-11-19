@@ -7,7 +7,8 @@
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <!--load all styles -->
     <link rel="stylesheet" href="style.css">
-
+    <link rel="shortcut icon" href="image/favicon.ico">
+    
     <script language="JavaScript" type="text/javascript">
 
         let imgArray = new Array();
@@ -20,6 +21,13 @@
         //페이드 인 아웃 시 카운트
         let volCnt = 0.0001;
         let imgCnt = 0.0003;
+
+        // 메뉴 버튼 클릭 활성화/ 비활성화
+        let buttonClicked = false;
+
+        let mouseCursor;
+
+
         function setImage() {
 
             for (let i = 1; i <= 532; i++) {
@@ -41,7 +49,12 @@
         function showImage() {
             objImg = document.getElementById("introimg");
             objImg.style.opacity = imgOpacity;
-            objImg.src = imgArray[imgNum++];
+            objImg.src = imgArray[imgNum];
+
+            if (buttonClicked === false) {
+                imgNum++;
+            }
+
             if (imgNum == 455) {
                 setAudioFadeOut();
                 setImgFadeOut();
@@ -50,8 +63,8 @@
             //60 -> 455 (-77)
             if (imgNum >= 530) {
                 keepPlay = false;
-                window.location.replace("http://118.67.133.71:8080/build/on_and_off2.html");
-                //window.location.replace("http://127.0.0.1:5500/on_and_off2.html");
+                //window.location.replace("http://interlude.live:8080/build/on_and_off2.html");
+                window.location.replace("http://127.0.0.1:5500/on_and_off2.html");
             }
             if (keepPlay) {
                 setTimeout(showImage, 60);
@@ -71,7 +84,7 @@
 
             }
         }
-       
+
         function setAudioFadeIn() {
             //오디오
             if (volCnt * 1.1 + bgm.volume < 0.4) {
@@ -111,7 +124,7 @@
             if (bgm.volume - volCnt * 1.1 > 0) {
                 volCnt *= 1.1;
                 bgm.volume -= volCnt;
-                setTimeout(setAudioFadeOut, 100);
+                setTimeout(setAudioFadeOut, 50);
             } else {
                 bgm.volume = 0;
             }
@@ -126,48 +139,171 @@
             if (opacityValue - imgCnt > 0) {
 
                 imgOpacity -= imgCnt;
-                setTimeout(setImgFadeOut, 100);
+                setTimeout(setImgFadeOut, 50);
             } else {
                 imgOpacity = 0;
-                
+
             }
         }
 
-        function mouseEvent() {
-            //마우스 커서 이벤트
-            $(document).ready(function () {
+        function modalEvent() {
+            $('#btn').removeClass();
+            $('#btnText').removeClass();
+            if (buttonClicked === false) {
+                showModal();
+            } else if (buttonClicked === true) {
+                hideModal();
+            }
 
-                $(document).mousemove(function (e) {
-
-                    let x = e.pageX;
-                    let y = e.pageY;
-
-                    let wi = document.body.clientWidth / 2;
-                    let he = document.body.clientHeight / 2;
-
-                    if (x > wi / 2 - 50 && x < wi / 2 + 50 && y > he - 50)
-                        $('body').css('cursor', 'pointer');
-                    else {
-                        $('body').css('cursor', 'default');
-                    }
-
-                });
-            });
         }
 
+        function showModal() {
+            buttonClicked = true;
+
+            let widthLength = '87.5%';
+            let heightLength = '100%';
+
+            let modalContent = document.getElementById("modalContent");
+            modalContent.style.width = widthLength;
+            modalContent.style.height = heightLength;
+
+
+            $('#myModal').show();
+            $('#btn').addClass('activate_animation_btn');
+            let btn = document.getElementById("btn");
+            btn.style.backgroundColor = "#001d85";
+            btn.style.opacity = 1;
+            btn.style.borderColor = "#001d85";
+
+
+            $('#btnText').addClass('animation_txt');
+            let btnText = document.getElementById("btnText");
+            btnText.style.color = 'white';
+            btnText.style.opacity = 1;
+        }
+
+        function hideModal() {
+            buttonClicked = false;
+            $('#myModal').hide();
+            $('#btn').addClass('deactivate_animation_btn');
+            let btn = document.getElementById("btn");
+            btn.style.backgroundColor = "transparent";
+            btn.style.opacity = 0.1;
+            btn.style.borderColor = "black";
+
+
+            $('#btnText').addClass('deactivate_animation_txt');
+            let btnText = document.getElementById("btnText");
+            btnText.style.color = 'black';
+            btnText.style.opacity = 0.1;
+        }
+
+        function mouseEvent(){
+            mouseCursor = document.querySelector(".cursor");
+            window.addEventListener("scroll", cursor);
+            window.addEventListener("mousemove", cursor);
+            mouseCursor.style.backgroundColor = "black";
+        }
+        function cursor(e) {
+            mouseCursor.style.left = e.pageX + "px";
+            mouseCursor.style.top = e.pageY - scrollY + "px";
+        }
         function initializing() {
             setImage();
-            mouseEvent();
             setAudio();
             setImgFadeIn();
             setAudioFadeIn();
+
+            mouseEvent();
         }
     </script>
 
 </head>
 
 <body onload="initializing()">
-    <img id="introimg" style="opacity: 0.1" />
+    <div class="cursor"></div>
+    <div class="imgClass">
+        <img id="introimg" style=" opacity: 0.1;" />
+    </div>
+    <div id="btnClass">
+        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()"></button>
+    </div>
+    <div id="btnText">
+        <span id="textOfBtn" onclick="modalEvent()" onmouseover="btnHoverEvent()">?</span>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div id="modalContent">
+            <div id="container">
+                <div id="posterContainer" class="modalContainer">
+                    <img src="image/poster/falling.jpg" />
+
+
+                </div>
+                <div class="modalLineCenter"></div>
+                <div class="modalContainer">
+                    <div id="details">
+                        <div style="height: 50%; width: 50%;">
+                            <div style="height: 30%;">
+                                <span id="sceneNumber">02.</span>
+                            </div>
+                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> Falling </div>
+                        </div>
+
+                        <div id="detailContents" style="margin-left: 10px;">
+                            
+                            <span style="font-weight: 500;">2020. 4. 27 (Mon)
+                            </span><br /><br />
+
+                            <span style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; letter-spacing: -0.5px; line-height: 22px;">
+                                이때까지 잘 지내왔는데 어쩌다 이렇게 지쳐버렸는지 모르겠다.
+왜 문제는 해결하려 할수록 더 나빠지기만 하는 건지, 내가 해결할 수 있는 일이라는 게 과연 존재하긴 하는 건지,  이런 수많은 질문이 내가 잘 할 수 있는 게 아무것도 없다는 걸 증명하는 것 같아서 나는 비참해졌다. 내 앞에 있는 많은 문제들은 진짜 문제가 아니었다. 내 속의 깊은 곳부터 무언가 잘못된 것이 분명하다는 생각에 정신이 멍해졌다.
+
+
+                            </span>
+                            <span style="display: inline-block; height: auto; margin-bottom: 25px;">
+                                I’ve been doing well so far, but I don’t know why I’m so exhausted now. Why is the problem getting worse when I try to solve it? Is there anything that I can solve? I became miserable because these kinds of questions seemed to prove that there was nothing that I could do well. Many things in front of me were not real problems. I was dazed after I came to know that something deeper inside of me must be wrong.
+                            </span>
+
+                            
+                            <span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">
+                                포스터는 클릭하면 다운과 프린트가 가능하다.
+                            </span><br/>
+                            <span style="height: 0px; font-size: 12.5px; width: 100%; text-align: left;">
+                                You can download and print when you click the poster.</span>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div id="modalBottom">
+                <div id="leftSideInBottom">
+                    <div id="dots">
+                        <div id='smalDot'></div>
+                        <div id='bigDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                    </div>
+                </div>
+                <div id="rightSideInBottom">
+                    <div id="musicSource">Music Source : Hiroshi Yoshimura - Wet Land</div>
+                </div>
+
+            </div>
+            <div id="options">
+                <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; " onclick="emailBtnClick()" />
+                <img src="image/icon/instagram.png" style="height: 50px; width: 50px; " onclick="printBtnClick()" />
+            </div>
+
+
+        </div>
+    </div>
 </body>
 
 </html>

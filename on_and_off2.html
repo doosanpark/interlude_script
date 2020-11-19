@@ -7,12 +7,11 @@
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <!--load all styles -->
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="image/favicon.ico">
 
     <script language="JavaScript" type="text/javascript">
         //이미지
-        let mainPageArray1 = new Array();
-        let mainPageArray2 = new Array();
-        let mainPageArray3 = new Array();
+        let mainPageArray = new Array();
         let objImg;
         let imgOpacity = 0;
         let imgNum = 1;
@@ -25,7 +24,7 @@
         let imgCnt = 0.0003;
 
         //상황
-        let sceneCase = 1;
+        let sceneCase = 3;
         let clickCase = 0;
 
         //마우스 좌표
@@ -37,34 +36,11 @@
 
         let keepPlay = true;
 
+        // 메뉴 버튼 클릭 활성화/ 비활성화
+        let buttonClicked = false;
+
         function setImage() {
 
-            for (let i = 1; i < 41; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
-                mainPageArray1[i] = "image/on_and_off/on_and_off_1/on_and_off(" + i + ").jpg";
-            }
-            for (let i = 1; i < 46; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
-                mainPageArray2[i] = "image/on_and_off/on_and_off_2/on_and_off(" + i + ").jpg";
-            }
             for (let i = 1; i < 21; i++) {
                 let j;
                 if (i < 10) {
@@ -76,7 +52,7 @@
                 } else if (i < 10000) {
                     j = "0" + i;
                 }
-                mainPageArray3[i] = "image/on_and_off/on_and_off_3/on_and_off(" + i + ").jpg";
+                mainPageArray[i] = "image/on_and_off/on_and_off_3/on_and_off(" + i + ").jpg";
             }
 
             showImage();
@@ -87,21 +63,12 @@
             objImg.style.opacity = imgOpacity;
             //console.log(imgNum);
             switch (sceneCase) {
-                case 1:
-                    objImg.src = mainPageArray1[imgNum++];
-                    if (imgNum >= 41) {
-                        imgNum = 1;
-                    }
-                    break;
-                case 2:
-                    objImg.src = mainPageArray2[imgNum++];
-                    if (imgNum >= 46) {
-                        imgNum = 1;
-                        sceneCase++;
-                    }
-                    break;
+
                 case 3:
-                    objImg.src = mainPageArray3[imgNum++];
+                    objImg.src = mainPageArray[imgNum];
+                    if (buttonClicked === false) {
+                        imgNum++;
+                    }
                     if (imgNum >= 21) {
                         imgNum = 1;
                     }
@@ -134,7 +101,7 @@
 
                 volCnt *= 1.1;
                 bgm.volume += volCnt;
-                setTimeout(setAudioFadeIn, 100);
+                setTimeout(setAudioFadeIn, 50);
             } else {
                 bgm.volume = 0.4;
 
@@ -150,7 +117,7 @@
                 imgCnt *= 1.1;
                 imgOpacity += imgCnt;
 
-                setTimeout(setImgFadeIn, 100);
+                setTimeout(setImgFadeIn, 50);
             } else {
                 imgOpacity = 1;
                 volCnt = 0.001;
@@ -167,7 +134,7 @@
             if (bgm.volume - volCnt * 1.1 > 0) {
                 volCnt *= 1.1;
                 bgm.volume -= volCnt;
-                setTimeout(setAudioFadeOut, 100);
+                setTimeout(setAudioFadeOut, 50);
             } else {
                 bgm.volume = 0;
             }
@@ -183,17 +150,17 @@
             if (opacityValue - imgCnt > 0) {
 
                 imgOpacity -= imgCnt;
-                setTimeout(setImgFadeOut, 100);
+                setTimeout(setImgFadeOut, 50);
             } else {
                 keepPlay = false;
                 sceneCase++;
 
                 if (clickCase === 1) {
-                    window.location.replace("http://118.67.133.71:8080/build/falling.html");
-                    //window.location.replace("http://127.0.0.1:5500/falling.html");
+                    //window.location.replace("http://interlude.live:8080/build/falling.html");
+                    window.location.replace("http://127.0.0.1:5500/falling.html");
                 } else if (clickCase === 2) {
-                    window.location.replace("http://118.67.133.71:8080/build/diving.html");
-                    //window.location.replace("http://127.0.0.1:5500/diving.html");
+                    //window.location.replace("http://interlude.live:8080/build/diving.html");
+                    window.location.replace("http://127.0.0.1:5500/diving.html");
                 }
                 imgOpacity = 0;
             }
@@ -214,7 +181,7 @@
                 wi *= 1;
                 he *= 1;
 
-                x -= (document.body.clientWidth - objImg.clientWidth) / 2
+                x -= (screen.width - wi) / 2;
                 // console.log("x", x);
                 // console.log("y", y);
                 // console.log("wi", wi);
@@ -222,17 +189,7 @@
                 // console.log("true?", (x > wi * 0.51 && x < wi * 0.59 && y > he * 0.37 && y < he * 0.52));
 
                 switch (sceneCase) {
-                    case 1:
-                        if (x > wi * 0.51 && x < wi * 0.59 && y > he * 0.37 && y < he * 0.52) {
-                            $('body').css('cursor', 'pointer');
-                        }
-                        else {
-                            $('body').css('cursor', 'default');
-                        }
-                        break;
-                    case 2:
-                        $('body').css('cursor', 'default');
-                        break;
+
 
                     case 3:
                         if (x > wi * 0.65 && x < wi * 0.785 && y > he * 0.33 && y < he * 0.61) {
@@ -251,18 +208,7 @@
 
         function imgClickEvent() {
             switch (sceneCase) {
-                case 1:
-                    if (x > wi * 0.51 && x < wi * 0.59 && y > he * 0.37 && y < he * 0.52) {
-                        sceneCase++;
 
-                    }
-                    imgNum = 1;
-                    break;
-                case 2:
-                    if (x > wi - 60 && x < wi + 40 && y > he - 80 && y < he + 85) {
-
-                    }
-                    break;
                 case 3:
                     volCnt = 0.001;
                     imgCnt = 0.03;
@@ -283,6 +229,58 @@
 
         }
 
+        function modalEvent() {
+            $('#btn').removeClass();
+            $('#btnText').removeClass();
+            if (buttonClicked === false) {
+                showModal();
+            } else if (buttonClicked === true) {
+                hideModal();
+            }
+
+        }
+
+        function showModal() {
+            buttonClicked = true;
+
+            let widthLength = '87.5%';
+            let heightLength = '100%';
+
+            let modalContent = document.getElementById("modalContent");
+            modalContent.style.width = widthLength;
+            modalContent.style.height = heightLength;
+
+
+            $('#myModal').show();
+            $('#btn').addClass('activate_animation_btn');
+            let btn = document.getElementById("btn");
+            btn.style.backgroundColor = "#001d85";
+            btn.style.opacity = 1;
+            btn.style.borderColor = "#001d85";
+
+
+            $('#btnText').addClass('animation_txt');
+            let btnText = document.getElementById("btnText");
+            btnText.style.color = 'white';
+            btnText.style.opacity = 1;
+        }
+
+        function hideModal() {
+            buttonClicked = false;
+            $('#myModal').hide();
+            $('#btn').addClass('deactivate_animation_btn');
+            let btn = document.getElementById("btn");
+            btn.style.backgroundColor = "transparent";
+            btn.style.opacity = 0.1;
+            btn.style.borderColor = "black";
+
+
+            $('#btnText').addClass('deactivate_animation_txt');
+            let btnText = document.getElementById("btnText");
+            btnText.style.color = 'black';
+            btnText.style.opacity = 0.1;
+        }
+
 
         function initializing() {
 
@@ -297,7 +295,99 @@
 </head>
 
 <body onload="initializing()">
-    <img id="introimg" style="opacity: 0.1" onclick="imgClickEvent()" />
+    <div class="imgClass">
+        <img id="introimg" style=" opacity: 0.1;" onclick="imgClickEvent()" />
+    </div>
+    <div id="btnClass">
+        <button id="btn" onclick="modalEvent()" onmouseover="btnHoverEvent()"></button>
+    </div>
+    <div id="btnText">
+        <span id="textOfBtn" onclick="modalEvent()" onmouseover="btnHoverEvent()">?</span>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div id="modalContent">
+            <div id="container">
+                <div id="posterContainer" class="modalContainer">
+                    <img src="image/poster/on_and_off.jpg" />
+
+
+                </div>
+                <div class="modalLineCenter"></div>
+                <div class="modalContainer">
+                    <div id="details">
+                        <div style="height: 50%; width: 50%;">
+                            <div style="height: 30%;">
+                                <span id="sceneNumber">01.</span>
+                            </div>
+                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> On & Off.</div>
+                        </div>
+
+                        <div id="detailContents" style="margin-left: 10px;">
+
+                            <span style="font-weight: 500;">Prologue</span><br /><br />
+
+                            <span
+                                style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; 
+                                letter-spacing: -0.5px; line-height: 22px;">
+                                “어떤 일로 오셨어요”
+                                차트를 넘기던 의사는 고개를 들어 그를 쳐다봤다.한참 동안 침묵을 유지하던 담담한 표정의 그는 천천히 손을 뻗어 <span
+                                    style="text-decoration: underline; font-weight: bold;">테이블 위의 작은 등</span>을
+                                켰다. 텅 비어있던
+                                공간에 등이 켜지며 전기가 흐르는 날카로운 소리로 가득 찼다가 이내 사라졌다. 의자 밑으로 드리워진 <span
+                                    style="text-decoration: underline; font-weight: bold;">그</span>의 선명한 <span
+                                    style="text-decoration: underline; font-weight: bold;">그림자</span>가 어쩐지 불안정해 보인다.
+                            </span>
+                            <span style="display: inline-block; height: auto; margin-bottom: 25px;">
+                                “hello, Sir, What have you come here for”
+                                The doctor, who was handing over the chart, looks up at him.After a long silence, he
+                                slowly
+                                reached out and turned on a small light on the table. The space was filled with the
+                                sound of
+                                electricity running sharply, and then disappeared. His shadow under the chair somehow
+                                looks
+                                unstable.
+                            </span>
+
+
+                            <span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">
+                                포스터는 클릭하면 다운과 프린트가 가능하다.
+                            </span><br />
+                            <span style="height: 0px; font-size: 12.5px; width: 100%; text-align: left;">
+                                You can download and print when you click the poster.</span>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div id="modalBottom">
+                <div id="leftSideInBottom">
+                    <div id="dots">
+                        <div id='bigDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                        <div id='smalDot'></div>
+                    </div>
+                </div>
+                <div id="rightSideInBottom">
+                    <div id="musicSource">Music Source : Hiroshi Yoshimura - Wet Land</div>
+                </div>
+
+            </div>
+            <div id="options">
+                <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; " onclick="emailBtnClick()" />
+                <img src="image/icon/instagram.png" style="height: 50px; width: 50px; " onclick="printBtnClick()" />
+            </div>
+
+
+        </div>
+    </div>
 </body>
 
 </html>
