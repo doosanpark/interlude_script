@@ -142,11 +142,11 @@
                 sceneCase++;
 
                 if (clickCase === 1) {
-                    //window.location.replace("http://www.interlude.live:8080/build/falling.html");
-                    window.location.replace("http://127.0.0.1:5500/falling.html");
+                    window.location.replace("http://www.interlude.live/build/falling.html");
+                    //window.location.replace("http://127.0.0.1:5500/falling.html");
                 } else if (clickCase === 2) {
-                    //window.location.replace("http://www.interlude.live:8080/build/diving.html");
-                    window.location.replace("http://127.0.0.1:5500/diving.html");
+                    window.location.replace("http://www.interlude.live/build/diving.html");
+                    //window.location.replace("http://127.0.0.1:5500/diving.html");
                 }
                 imgOpacity = 0;
             }
@@ -174,28 +174,39 @@
                 he *= 1;
 
                 x -= (window.innerWidth - wi) / 2
-                if (cursorAction === true && buttonClicked === false) {
+                if (buttonClicked === false && cursorAction === true) {
+
                     switch (sceneCase) {
+
+
+
                         case 1:
-                            if (x > wi * 0.51 && x < wi * 0.62 && y > he * 0.41 && y < he * 0.57) {
+                            if (x > wi * 0.53 && x < wi * 0.61 && y > he * 0.41 && y < he * 0.57) {
                                 activeMouseEffect();
                             }
-                            else {
+                            else if (x > wi * 0.43 && x < wi * 0.47 && y > he * 0.57 && y < he * 0.65) {
+                                activeMouseEffect();
+                            } else {
                                 deActiveMouseEffect();
                             }
                             break;
                         case 2:
-                            deActiveMouseEffect();
+                            if (x > wi * 0.43 && x < wi * 0.47 && y > he * 0.57 && y < he * 0.65) {
+                                activeMouseEffect();
+                            } else {
+                                deActiveMouseEffect();
+                            }
                             break;
 
                         case 3:
-                            if (x > wi * 0.65 && x < wi * 0.785 && y > he * 0.33 && y < he * 0.61) {
-
-                            }
-                            else if (x > wi * 0.65 && x < wi * 0.87 && y > he * 0.69 && y < he * 0.81) {
+                            if (x > wi * 0.65 && x < wi * 0.785 && y > he * 0.4 && y < he * 0.61) {
                                 activeMouseEffect();
                             }
-                            else {
+                            else if (x > wi * 0.65 && x < wi * 0.85 && y > he * 0.69 && y < he * 0.81) {
+                                activeMouseEffect();
+                            } else if (x > wi * 0.43 && x < wi * 0.47 && y > he * 0.57 && y < he * 0.65) {
+                                activeMouseEffect();
+                            } else {
                                 deActiveMouseEffect();
                             }
                             break;
@@ -208,18 +219,25 @@
         }
 
         function imgClickEvent() {
-            if (cursorAction === true && buttonClicked === false) {
+            if (buttonClicked === false && cursorAction === true) {
                 switch (sceneCase) {
                     case 1:
-                        if (x > wi * 0.51 && x < wi * 0.62 && y > he * 0.41 && y < he * 0.57) {
+
+                        if (x > wi * 0.53 && x < wi * 0.61 && y > he * 0.41 && y < he * 0.57) {
                             sceneCase++;
                             deActiveMouseEffect();
+                            imgNum = 1;
                         }
-                        imgNum = 1;
+                        else if (x > wi * 0.43 && x < wi * 0.47 && y > he * 0.57 && y < he * 0.65) {
+                            window.location.replace("http://www.interlude.live/build/off_and_on2.html");
+                            //window.location.replace("http://127.0.0.1:5500/off_and_on2.html");
+                        }
+
                         break;
                     case 2:
-                        if (x > wi - 60 && x < wi + 40 && y > he - 80 && y < he + 85) {
-
+                        if (x > wi * 0.43 && x < wi * 0.47 && y > he * 0.57 && y < he * 0.65) {
+                            window.location.replace("http://www.interlude.live/build/off_and_on2.html");
+                            //window.location.replace("http://127.0.0.1:5500/off_and_on2.html");
                         }
                         break;
                     case 3:
@@ -235,6 +253,9 @@
                             setImgFadeOut();
                             setAudioFadeOut();
                             clickCase = 2;
+                        } else if (x > wi * 0.43 && x < wi * 0.47 && y > he * 0.57 && y < he * 0.65) {
+                            window.location.replace("http://www.interlude.live/build/off_and_on2.html");
+                            //window.location.replace("http://127.0.0.1:5500/off_and_on2.html");
                         }
                         deActiveMouseEffect();
                         break;
@@ -345,7 +366,9 @@
         <div id="modalContent">
             <div id="container">
                 <div id="posterContainer" class="modalContainer">
-                    <img src="image/poster/on_and_off.jpg" />
+                    <a href="image/poster/on_and_off.jpg" download="on_and_off.jpg">
+                        <img src="image/poster/on_and_off.jpg" />
+                    </a>
 
 
                 </div>
@@ -354,14 +377,14 @@
                     <div id="details">
                         <div style="height: 50%; width: 50%;">
                             <div style="height: 30%;">
-                                <span id="sceneNumber">04.</span>
+                                <span id="sceneNumber">01.</span>
                             </div>
-                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> Endless Diving</div>
+                            <div style="height: 10%; margin-left: 10px; font-weight: 500;">On & Off</div>
                         </div>
 
                         <div id="detailContents" style="margin-left: 10px;">
 
-                            <span style="font-weight: 500;">2020. 6. 24 (Wed)
+                            <span style="font-weight: 500;">Prologue
                             </span><br /><br />
 
                             <span
@@ -387,10 +410,10 @@
 
 
                             <span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">
-                                포스터는 클릭하면 다운과 프린트가 가능하다.
+                                포스터는 클릭하면 다운이 가능하다.
                             </span><br />
                             <span style="height: 0px; font-size: 11.5px; width: 100%; text-align: left;">
-                                You can download and print when you click the poster.</span>
+                                You can download when you click the poster.</span>
                         </div>
 
 
@@ -417,11 +440,12 @@
 
             </div>
             <div id="options">
-                <a href="mailto:cindych97@naver.com">
+                <a href="mailto:cindych211@gmail.com">
                     <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; "
                         onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
                 </a>
-                <a href="" download="image/poster/on_and_off.jpg">
+
+                <a href="https://www.instagram.com/shannna_lee211/">
                     <img src="image/icon/instagram.png" style="height: 50px; width: 50px; "
                         onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
                 </a>

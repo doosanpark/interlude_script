@@ -11,7 +11,6 @@
 
     <script language="JavaScript" type="text/javascript">
 
-
         //이미지
         let imgArray1 = new Array();
         let imgArray2 = new Array();
@@ -127,6 +126,7 @@
                         imgNum = 1;
                         secCnt = 58;
                         sceneCase++;
+                        changeInnerHtml();
                     }
                     break;
                 case 3:
@@ -178,8 +178,8 @@
                         if (imgNum > 1200) {
                             imgNum = 1;;
                             keepPlay = false;
-                            //window.location.replace("http://www.interlude.live:8080/build/take_to_a_depth.html");
-                            window.location.replace("http://127.0.0.1:5500/take_to_a_depth.html");
+                            window.location.replace("http://www.interlude.live/build/take_to_a_depth.html");
+                            //window.location.replace("http://127.0.0.1:5500/take_to_a_depth.html");
                         }
                     }
 
@@ -385,8 +385,9 @@
         }
 
         function hideModal() {
-            if (sceneCase === 3) {
+            if (sceneCase === 3 && imgNum < 750) {
                 objScroll.style.opacity = 1;
+                secCnt = 351;
             }
 
             buttonClicked = false;
@@ -413,6 +414,69 @@
                 btn = document.getElementById("btn");
                 btn.style.background = "rgba(0,0,0,0)";
             }
+        }
+
+        function changeInnerHtml() {
+
+            var tag1 =
+
+                '<a href="image/poster/endless_diving.jpg" download="endless_diving.jpg">' +
+                '<img src="image/poster/endless_diving.jpg" />' +
+                '</a>';
+
+            var tag2 =
+
+                '<div style=" width: 50%;">' +
+                ' <div style="height: 30%;">' +
+                '   <span id="sceneNumber">04.</span>' +
+                ' </div>' +
+                ' <div style="height: 10%; margin-left: 10px; font-weight: 500;">Endless Diving</div>' +
+                '</div>' +
+
+                '<div id="detailContents" style="height: 50%;margin-left: 10px;">' +
+
+                ' <span style="font-weight: 500;">2020. 6. 24 (Wed)' +
+                '</span><br /><br />' +
+
+                '<span ' +
+                'style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; letter-spacing: -0.5px; line-height: 22px;">' +
+                '스스로 뛰어든 이 그림자 속이 처음엔 편안했다. 내가 만든 세상에서 우울이라는 감정을 다 써버리고 나면 자연스럽게 괜찮아질거라고 생각했는데 착각이었다. 우울은 ' +
+                '끝이 없었고, 계속 다른 형태로 찾아와 나를 지치게 만들었다. 우울의 깊이와 끝은 존재하긴 하는걸까.' +
+
+                '</span>' +
+                '<span style="display: inline-block; height: auto; margin-bottom: 25px;">' +
+                'At first, I felt comfortable in this shadow that I jumped on my own. I thought I’d get' +
+                ' better after I used all my feelings of depression in the world that I made. But I was' +
+                'not. This depth of depression was endless, and continued to come in different ways, and' +
+                'that fact made me exhausted. I can’t be sure whether depression ends or not.' +
+
+                '</span>' +
+
+
+                '<span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">' +
+                '포스터는 클릭하면 다운이 가능하다.' +
+                '</span><br />' +
+                '<span style="height: 0px; font-size: 11.5px; width: 100%; text-align: left;">' +
+                'You can download when you click the poster.</span>' +
+                '</div>'
+                ;
+
+            let tag3 =
+                "<div id='smalDot'></div>" +
+                "<div id='smalDot'></div>" +
+                "<div id='smalDot'></div>" +
+                "<div id='bigDot'></div>" +
+                "<div id='smalDot'></div>" +
+                "<div id='smalDot'></div>" +
+                "<div id='smalDot'></div>" +
+                "<div id='smalDot'></div>" 
+            ;
+
+            document.getElementById("posterContainer").innerHTML = tag1;
+            document.getElementById("details").innerHTML = tag2;
+            document.getElementById("dots").innerHTML = tag3;
+
+
         }
 
         function initializing() {
@@ -448,8 +512,9 @@
         <div id="modalContent">
             <div id="container">
                 <div id="posterContainer" class="modalContainer">
-                    <img src="image/poster/endless_diving.jpg" />
-
+                    <a href="image/poster/dive_into_the_shadow.jpg" download="dive_into_the_shadow.jpg">
+                        <img src="image/poster/dive_into_the_shadow.jpg" />
+                    </a>
 
                 </div>
                 <div class="modalLineCenter"></div>
@@ -457,36 +522,41 @@
                     <div id="details">
                         <div style="height: 50%; width: 50%;">
                             <div style="height: 30%;">
-                                <span id="sceneNumber">05.</span>
+                                <span id="sceneNumber">03.</span>
                             </div>
-                            <div style="height: 10%; margin-left: 10px; font-weight: 500;"> Endless Diving</div>
+                            <div style="height: 10%; margin-left: 10px; font-weight: 500;">Dive into the shadow</div>
                         </div>
 
                         <div id="detailContents" style="margin-left: 10px;">
 
-                            <span style="font-weight: 500;">2020. 6. 24 (Wed)
+                            <span style="font-weight: 500;">2020. 5. 26 (Tue)
                             </span><br /><br />
 
                             <span
                                 style="display: inline-block; height: auto; margin-bottom: 20px; font-size : 14px; letter-spacing: -0.5px; line-height: 22px;">
-                                스스로 뛰어든 이 그림자 속이 처음엔 편안했다. 내가 만든 세상에서 우울이라는 감정을 다 써버리고 나면 자연스럽게 괜찮아질거라고 생각했는데 착각이었다. 우울은
-                                끝이 없었고, 계속 다른 형태로 찾아와 나를 지치게 만들었다. 우울의 깊이와 끝은 존재하긴 하는걸까.
+                                방향도 위치도 어느 것도 알 수 없는 현실은 나를 무섭게 한다.
+                                내가 확실하게 아는 것 하나가 있다면 나에게 그림자 같은 우울이 항상 있다는 것뿐이다.
+                                나는 <span class='korOfTouchImg'>발아래 그림자</span>를 한참 바라보았다. 아무것도 예측할 수 없는 이곳에서 나는 깊고 어두운
+                                그림자 속으로 도망쳤다.
+
 
                             </span>
                             <span style="display: inline-block; height: auto; margin-bottom: 25px;">
-                                At first, I felt comfortable in this shadow that I jumped on my own. I thought I'd get
-                                better after I used all my feelings of depression in the world that I made. But I was
-                                not. This depth of depression was endless, and continued to come in different ways, and
-                                that fact made me exhausted. I can’t be sure whether depression ends or not.
+                                The reality; this place that I can’t find direction and location, makes me feel afraid.
+                                The only thing what I know for sure is that depression always exists with me  like a
+                                shadow. I faced the <span class='engOfTouchImg'>shadow under my feet</span> for a long
+                                time. From the reality where nothing
+                                could be predicted, I ran away to the dark, deep shadow.
+
 
                             </span>
 
 
                             <span style=" height: 0px; font-size: 11px; width: 100%; text-align: left;">
-                                포스터는 클릭하면 다운과 프린트가 가능하다.
+                                포스터는 클릭하면 다운이 가능하다.
                             </span><br />
                             <span style="height: 0px; font-size: 11.5px; width: 100%; text-align: left;">
-                                You can download and print when you click the poster.</span>
+                                You can download when you click the poster.</span>
                         </div>
 
 
@@ -499,8 +569,8 @@
                     <div id="dots">
                         <div id='smalDot'></div>
                         <div id='smalDot'></div>
-                        <div id='smalDot'></div>
                         <div id='bigDot'></div>
+                        <div id='smalDot'></div>
                         <div id='smalDot'></div>
                         <div id='smalDot'></div>
                         <div id='smalDot'></div>
@@ -513,11 +583,12 @@
 
             </div>
             <div id="options">
-                <a href="mailto:cindych97@naver.com">
+                <a href="mailto:cindych211@gmail.com">
                     <img src="image/icon/mail_icon.png" style="height: 50px; width: 50px; "
                         onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
                 </a>
-                <a href="" download="image/poster/endless_diving.jpg">
+
+                <a href="https://www.instagram.com/shannna_lee211/">
                     <img src="image/icon/instagram.png" style="height: 50px; width: 50px; "
                         onmouseover="activeMouseEffect();" onmouseout="deActiveMouseEffect();" />
                 </a>
