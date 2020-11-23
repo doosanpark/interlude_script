@@ -44,30 +44,9 @@
         function setImage() {
 
             for (let i = 1; i <= 56; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
-
                 imgArray1[i] = "image/take_to_a_depth/take_to_a_depth1/take_to_a_depth(" + i + ").jpg";
             }
             for (let i = 1; i <= 244; i++) {
-                let j;
-                if (i < 10) {
-                    j = "0000" + i;
-                } else if (i < 100) {
-                    j = "000" + i;
-                } else if (i < 1000) {
-                    j = "00" + i;
-                } else if (i < 10000) {
-                    j = "0" + i;
-                }
                 imgArray2[i] = "image/take_to_a_depth/take_to_a_depth2/take_to_a_depth(" + i + ").jpg";
             }
             showImage();
@@ -99,7 +78,7 @@
                     if (imgNum > 240) {
                         keepPlay = false;
                         window.location.replace("http://www.interlude.live/build/wave.html");
-                        //window.location.replace("http://127.0.0.1:5500/wave.html");
+                        ////window.location.replace("http://127.0.0.1:5500/wave.html");
                     }
                     break;
 
@@ -126,13 +105,13 @@
 
         function setAudioFadeIn() {
             //오디오
-            if (volCnt * 1.1 + bgm.volume < 0.4) {
+            if (volCnt * 1.1 + bgm.volume < 1) {
 
                 volCnt *= 1.1;
                 bgm.volume += volCnt;
                 setTimeout(setAudioFadeIn, 50);
             } else {
-                bgm.volume = 0.4;
+                bgm.volume = 1;
 
             }
         }
@@ -187,16 +166,12 @@
                 wi = objImg.clientWidth;
                 he = window.innerHeight;
 
-                //console.log("pure x", x);
                 x *= 1;
                 y *= 1;
                 wi *= 1;
                 he *= 1;
 
                 x -= (window.innerWidth - wi) / 2;
-
-                console.log('x', x);
-                console.log('check', x > wi * 0.41 && x < wi * 0.46);
 
                 if (cursorAction === true && buttonClicked === false) {
                     switch (sceneCase) {

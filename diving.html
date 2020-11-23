@@ -217,13 +217,13 @@
 
         function setAudioFadeIn() {
             //오디오
-            if (volCnt * 1.1 + bgm.volume < 0.4) {
+            if (volCnt * 1.1 + bgm.volume < 1) {
 
                 volCnt *= 1.1;
                 bgm.volume += volCnt;
                 setTimeout(setAudioFadeIn, 50);
             } else {
-                bgm.volume = 0.4;
+                bgm.volume = 1;
             }
         }
 
@@ -491,7 +491,7 @@
 </head>
 
 <body onload="initializing()">
-    <div id="scroll" onclick="imgClickEvent()">
+    <div id="scroll" onclick="imgClickEvent()" style="opacity: 0;">
         <span id='scrollDownTxt'>Scroll Down</span>
         <div id="arrow"></div>
     </div>

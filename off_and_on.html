@@ -39,11 +39,16 @@
             if (buttonClicked === false) {
                 imgNum++;
             }
+
+            if (imgNum > 200) {
+                setAudioFadeOut();
+            }
+
             //60 -> 455 (-77)
             if (imgNum > 220) {
                 keepPlay = false;
                 window.location.replace("http://www.interlude.live/build/intro_outro.html");
-                //window.location.replace("http://127.0.0.1:5500/intro_outro.html");
+                ////window.location.replace("http://127.0.0.1:5500/intro_outro.html");
             }
             if (keepPlay) {
                 setTimeout(showImage, 60);
@@ -66,14 +71,26 @@
 
         function setAudioFadeIn() {
             //오디오
-            if (volCnt * 1.1 + bgm.volume < 0.4) {
+            if (volCnt * 1.1 + bgm.volume < 1) {
 
                 volCnt *= 1.1;
                 bgm.volume += volCnt;
                 setTimeout(setAudioFadeIn, 50);
             } else {
-                bgm.volume = 0.4;
+                bgm.volume = 1;
 
+            }
+        }
+
+        function setAudioFadeOut() {
+
+            //오디오
+            if (bgm.volume - volCnt * 1.1 > 0) {
+                volCnt *= 1.1;
+                bgm.volume -= volCnt;
+                setTimeout(setAudioFadeOut, 50);
+            } else {
+                bgm.volume = 0;
             }
         }
 

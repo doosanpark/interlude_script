@@ -123,13 +123,13 @@
         }
         function setAudioFadeIn() {
             //오디오
-            if (volCnt * 1.1 + bgm.volume < 0.4) {
+            if (volCnt * 1.1 + bgm.volume < 1) {
 
                 volCnt *= 1.1;
                 bgm.volume += volCnt;
                 setTimeout(setAudioFadeIn, 50);
             } else {
-                bgm.volume = 0.4;
+                bgm.volume = 1;
 
             }
         }
@@ -150,10 +150,6 @@
                 volCnt = 0.001;
                 imgCnt = 0.03;
                 cursorAction = true;
-                // let myWindow = window.open("", "", "width=100, height=100");  // Opens a new window
-                // myWindow.resizeTo(1000, 1000);                             // Resizes the new window
-                // myWindow.focus();                                        // Sets focus to the new window
-
             }
         }
 
@@ -227,6 +223,7 @@
                 if ((sceneCase === 1 ||sceneCase === 2) && clickEventOccured === 0) {
                     if (x > wi * 0.73 && x < wi * 0.985 && y > he * 0.35 && y < he * 0.55) {
                         sceneCase=3;
+                        imgNum=1;
                         changeInnerHtml();
                         deActiveMouseEffect();
                     }
@@ -366,8 +363,7 @@
                 "<div id='smalDot'></div>" +
                 "<div id='smalDot'></div>" +
                 "<div id='bigDot'></div>" +
-                "<div id='smalDot'></div>"
-                ;
+                "<div id='smalDot'></div>";
 
             document.getElementById("posterContainer").innerHTML = tag1;
             document.getElementById("details").innerHTML = tag2;

@@ -77,13 +77,13 @@
 
         function setAudioFadeIn() {
             //오디오
-            if (volCnt * 1.1 + bgm.volume < 0.4) {
+            if (volCnt * 1.1 + bgm.volume < 1) {
 
                 volCnt *= 1.1;
                 bgm.volume += volCnt;
                 setTimeout(setAudioFadeIn, 50);
             } else {
-                bgm.volume = 0.4;
+                bgm.volume = 1;
 
             }
         }
